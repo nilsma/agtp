@@ -1,0 +1,47 @@
+body {
+    background-color: lightgreen;
+}
+
+section#admin-profile {
+    text-align: right;
+    padding-top: 20px;
+    min-height: 50px;
+}
+
+header h1 {
+    font-family: Lato;
+    margin-top: 0;
+}
+
+nav#main {
+    background-color: yellow;
+}
+
+nav#main ul {
+    list-style: none;
+    padding-top: 15px;
+    float: right;
+}
+
+nav#main ul li {
+    float: left;
+    margin-right: 15px;
+    font-size: 16px;
+}
+
+nav#main ul li:last-child {
+    margin-right: 0;
+}
+
+header img {
+    width: 100%;
+}
+
+body#velkommen div#main-container div:first-child {
+    border-right: 1px solid lightgrey;
+}
+
+footer {
+    background-color: lightgray;
+}
+
