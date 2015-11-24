@@ -8,7 +8,7 @@
         </article>
     </div>
     <div class="col-lg-5">
-        <h2>Hva skjer på Austegardstoppen</h2>
+        <h2>Hva skjer</h2>
         <div>
             <ul id="eventlist">
             </ul>
