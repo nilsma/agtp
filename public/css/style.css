@@ -1,5 +1,9 @@
 body {
-    background-color: lightgreen;
+
+}
+
+header {
+    margin-bottom: 20px;
 }
 
 section#admin-profile {
@@ -11,10 +15,6 @@ section#admin-profile {
 header h1 {
     font-family: Lato;
     margin-top: 0;
-}
-
-nav#main {
-    background-color: yellow;
 }
 
 nav#main ul {
@@ -37,11 +37,60 @@ header img {
     width: 100%;
 }
 
-body#velkommen div#main-container div:first-child {
-    border-right: 1px solid lightgrey;
+div#login-register ul {
+    float: right;
+    list-style: none;
+}
+
+div#login-register ul li {
+    float: left;
+    margin-right: 15px;
+    font-size: 12px;
+}
+
+div#login-register ul li:last-child {
+    margin-right: 0;
+}
+
+div#authed,
+div#login-register {
+    margin-top: 20px;
+}
+
+div#authed p {
+    float: right;
+}
+
+div#main-container {
+
+}
+
+div.post-main {
+    border-bottom: 4px double lightgrey;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+article.post-content {
+    border-top: 1px solid lightgrey;
+    padding-top: 10px;
+}
+
+div#side-content {
+
+}
+
+div#side-content h2 {
+    text-align: center;
+    text-decoration: underline;
+}
+
+ul#eventlist {
+    text-align: center;
 }
 
 footer {
     background-color: lightgray;
+    margin-top: 20px;
 }
 

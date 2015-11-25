@@ -1,17 +1,12 @@
 @extends('app')
 @section('body-id', 'velkommen')
 @section('content')
-<div class="col-lg-7">
-        <h2>Main content here</h2>
-        <article>
-            <p>Some paragraphs happening here</p>
-        </article>
+    <div id="posts" class="col-lg-7">
+        @include('partials/posts')
     </div>
-    <div class="col-lg-5">
+    <div id="side-content" class="col-lg-5 row">
         <h2>Hva skjer</h2>
-        <div>
-            <ul id="eventlist">
-            </ul>
-        </div>
+        <ul id="eventlist" class="col-lg-12">
+        </ul>
     </div>
 @endsection

@@ -1,4 +1,5 @@
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     {!!HTML::style('css/style.css')!!}
     {!!HTML::style('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')!!}
     {!! HTML::style('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js') !!}

@@ -15,6 +15,7 @@ class UsersTableSeeder extends Seeder
             'name' => str_random(10),
             'email' => str_random(10).'@gmail.com',
             'password' => bcrypt('asdflkj'),
+            'role' => 'subscriber',
             'created_at' => date('Y-m-d H:i:s')
         ]);
 
@@ -22,6 +23,7 @@ class UsersTableSeeder extends Seeder
             'name' => str_random(10),
             'email' => str_random(10).'@gmail.com',
             'password' => bcrypt('asdflkj'),
+            'role' => 'subscriber',
             'created_at' => date('Y-m-d H:i:s')
         ]);
 
@@ -29,6 +31,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'asdflkj',
             'email' => 'asdflkj@gmail.com',
             'password' => bcrypt('asdflkj'),
+            'role' => 'admin',
             'created_at' => date('Y-m-d H:i:s')
         ]);
     }
