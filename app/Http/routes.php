@@ -38,6 +38,8 @@ Route::post('/login', 'Auth\AuthController@postLogin');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
+Route::get('/dashboard', 'UserController@dashboard');
+
 
 Route::controllers([
     'password' => 'Auth\PasswordController',

@@ -6,6 +6,16 @@ header {
     margin-bottom: 20px;
 }
 
+header div {
+    display: flex;
+    flex-direction: column;
+}
+
+div#brand {
+    display: flex;
+    flex-direction: row;
+}
+
 section#admin-profile {
     text-align: right;
     padding-top: 20px;
@@ -15,6 +25,34 @@ section#admin-profile {
 header h1 {
     font-family: Lato;
     margin-top: 0;
+}
+
+div#authed,
+div#login-register {
+    display: flex;
+    align-items: flex-end;
+}
+
+div#member-nav {
+    display: flex;
+    align-items: flex-end;
+    margin-top: -10px;
+}
+
+div#member-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px 10px 10px;
+    border: 1px solid black;
+}
+
+div#member-nav ul li {
+    margin-top: 10px;
+}
+
+div#member-nav ul li a {
+    padding: 5px;
 }
 
 nav#main ul {

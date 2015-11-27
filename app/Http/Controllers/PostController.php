@@ -19,11 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        /*
-        $posts = Posts::where('active',1)->orderBy('created_at','desc')->paginate(5);
-        $title = 'Latest Posts';
-        return view('home')->withPosts($posts)->withTitle($title);
-        */
+        //
     }
 
     public function create(Request $request) {
@@ -40,17 +36,6 @@ class PostController extends Controller
         }
 
     }
-
-    /*
-    public function create(Request $request)
-    {
-        if($request->user()->can_post()) {
-            return view('posts.create');
-        } else {
-            return redirect('/')->withErrors('You have not sufficient permissions for writing post');
-        }
-    }
-    */
 
     /**
      * Store a newly created resource in storage.
@@ -87,13 +72,26 @@ class PostController extends Controller
      */
     public function show($slug)
     {
+
         $post = Posts::where('slug',$slug)->first();
-        if(!$post)
-        {
+
+        if(!$post) {
             return redirect('/')->withErrors('requested page not found');
         }
+
         $comments = $post->comments;
-        return view('posts.show')->withPost($post)->withComments($comments);
+
+        if(Auth::check()) {
+            $username = Auth::user()->name;
+
+            return view('posts.show', ['username' => $username])->withPost($post)->withComments($comments);
+
+        } else {
+
+            return view('posts.show')->withPost($post)->withComments($comments);
+
+        }
+
     }
 
     /**

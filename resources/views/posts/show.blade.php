@@ -1,19 +1,18 @@
-@extends('blog')
-@section('title')
-    @if($post)
-        {{ $post->title }}
-        @if(!Auth::guest() && ($post->author_id == Auth::user()->id || Auth::user()->is_admin()))
-            <button class="btn" style="float: right"><a href="{{ url('edit/'.$post->slug)}}">Edit Post</a></button>
-        @endif
-    @else
-        Page does not exist
-    @endif
-@endsection
+@extends('app')
 @section('title-meta')
     <p>{{ $post->created_at->format('M d,Y \a\t h:i a') }} By <a href="{{ url('/user/'.$post->author_id)}}">{{ $post->author->name }}</a></p>
 @endsection
 @section('content')
     @if($post)
+        <div>
+            @if(!Auth::guest() && ($post->author_id == Auth::user()->id || Auth::user()->is_admin()))
+                <button class="btn" style="float: right"><a href="{{ url('edit/'.$post->slug)}}">Edit Post</a></button>
+            @else
+                Page does not exist
+            @endif
+            <h3>{{ $post->title }}</h3>
+            <p>{{ $post->created_at->format('M d,Y \a\t h:i a') }} By <a href="{{ url('/user/'.$post->author_id)}}">{{ $post->author->name }}</a></p>
+        </div>
         <div>
             {!! $post->body !!}
         </div>
