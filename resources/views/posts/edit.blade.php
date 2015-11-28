@@ -1,4 +1,4 @@
-@extends('blog')
+@extends('app')
 @section('title')
     Edit Post
 @endsection

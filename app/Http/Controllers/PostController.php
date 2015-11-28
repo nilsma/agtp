@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Posts;
-use App\User;
 use Redirect;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\PostFormRequest;
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 
 class PostController extends Controller
 {
@@ -35,6 +34,18 @@ class PostController extends Controller
 
         }
 
+    }
+
+    public function my_posts(Request $request) {
+
+        if(!Auth::check()) {
+            redirect('/');
+        }
+
+        $posts = Posts::where('author_id',$request->user()->id)->orderBy('created_at','desc')->paginate(5);
+
+
+        return view('posts.show-all', ['username' => $request->user()->name])->withPosts($posts);
     }
 
     /**
@@ -104,7 +115,8 @@ class PostController extends Controller
     {
         $post = Posts::where('slug',$slug)->first();
         if($post && ($request->user()->id == $post->author_id || $request->user()->is_admin()))
-            return view('posts.edit')->with('post',$post);
+            return view('posts.edit', ['username' => $request->user()->name])->with('post',$post);
+
         return redirect('/')->withErrors('you have not sufficient permissions');
     }
 
@@ -116,7 +128,6 @@ class PostController extends Controller
      */
     public function update(Request $request)
     {
-        //
         $post_id = $request->input('post_id');
         $post = Posts::find($post_id);
         if($post && ($post->author_id == $request->user()->id || $request->user()->is_admin()))

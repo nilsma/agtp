@@ -39,7 +39,8 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 Route::get('/dashboard', 'UserController@dashboard');
-
+Route::get('/mine-poster', 'PostController@my_posts');
+Route::get('/mine-dokumenter', 'DocumentsController@my_documents');
 
 Route::controllers([
     'password' => 'Auth\PasswordController',
@@ -61,9 +62,9 @@ Route::controllers([
 Route::group(['middleware' => ['auth']], function()
 {
     // show new post form
-    Route::get('new-post','PostController@create');
+    Route::get('ny-post','PostController@create');
     // save new post
-    Route::post('new-post','PostController@store');
+    Route::post('ny-post','PostController@store');
     // edit post form
     Route::get('edit/{slug}','PostController@edit');
     // update post
@@ -71,7 +72,7 @@ Route::group(['middleware' => ['auth']], function()
     // delete post
     Route::get('delete/{id}','PostController@destroy');
     // display user's all posts
-    Route::get('my-all-posts','UserController@user_posts_all');
+    #Route::get('my-all-posts','UserController@user_posts_all');
     // display user's drafts
     Route::get('my-drafts','UserController@user_posts_draft');
     // add comment

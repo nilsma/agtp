@@ -35,7 +35,7 @@ class UserController extends Controller {
         $user = $request->user();
         $posts = Posts::where('author_id',$user->id)->orderBy('created_at','desc')->paginate(5);
         $title = $user->name;
-        return view('home')->withPosts($posts)->withTitle($title);
+        return view('posts.show-all')->withPosts($posts)->withTitle($title);
     }
     /*
      * Display draft posts of a currently active user

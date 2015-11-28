@@ -110,12 +110,7 @@ div.post-main {
 }
 
 article.post-content {
-    border-top: 1px solid lightgrey;
     padding-top: 10px;
-}
-
-div#side-content {
-
 }
 
 div#side-content h2 {
@@ -125,6 +120,33 @@ div#side-content h2 {
 
 ul#eventlist {
     text-align: center;
+}
+
+div.post {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 4px double lightgrey;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+div.post-header {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 10px;
+}
+
+div.post-header div:first-child {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+div.post-header div:first-child div {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 }
 
 footer {

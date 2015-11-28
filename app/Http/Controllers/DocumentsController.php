@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Request;
 use Auth;
 use DB;
 
@@ -31,6 +32,12 @@ class DocumentsController extends Controller
             'godkjent' => $godkjente,
             'skriv' => $skriv
         ]);
+    }
+
+    public function my_documents(Request $request) {
+
+
+
     }
 
 }
