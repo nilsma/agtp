@@ -11,6 +11,14 @@
     </div>
 
     <div class="form-group">
+        {!! Form::select('document_type', [
+        'skriv' => 'Generelt Skriv',
+         'godkjent' => 'Godkjent referat',
+          'til_godkjenning' => 'Referat til godkjenning'
+        ]) !!}
+    </div>
+
+    <div class="form-group">
         {!! Form::label('Choose a File') !!}
         {!! Form::file('file') !!}
     </div>

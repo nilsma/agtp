@@ -6,6 +6,7 @@ use App\Documents;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Input;
 use Request;
 
@@ -60,18 +61,47 @@ class DocumentsController extends Controller
 
     public function store(Request $request) {
 
-        /*
-        $title = Request::input('title');
-        $file = Request::file('file');
-        $extension = Request::file('file')->getClientOriginalExtension();
-        $filename = Request::file('file')->getClientOriginalName();
+        if(Request::file('file')->getClientOriginalExtension() == 'pdf') {
 
-        echo $title . " --- " . $file . " --- " . $filename . " --- " . $extension;
-        */
+            $doc_folder = "";
 
-        Request::file('file')->move(public_path('uploads/skriv/'), Request::file('file')->getClientOriginalName());
+            switch(Request::input('document_type'))
+            {
+                case 'skriv':
+                    $doc_folder = 'uploads/skriv/';
+                    break;
 
-        return view('member.dashboard', ['username' => Auth::user()->name]);
+                case 'til_godkjenning':
+                    $doc_folder = 'uploads/referater/til_godkjenning/';
+                    break;
+
+                case 'godkjent':
+                    $doc_folder = 'uploads/referater/godkjent/';
+                    break;
+
+            }
+
+            $document = new Documents();
+            $document->id = NULL;
+            $document->owner_id = Auth::user()->id;
+            $document->title = Request::input('title');
+            $document->filename = Request::file('file')->getClientOriginalName();
+
+            try {
+
+                $document->save();
+
+                Request::file('file')->move(public_path($doc_folder), Request::file('file')->getClientOriginalName());
+
+                return view('member.dashboard', ['username' => Auth::user()->name]);
+
+            } catch(QueryException $e) {
+
+                return view('/', ['username' => Auth::user()->name])->withErrors($e->getMessage());
+
+            }
+
+        }
 
     }
 
