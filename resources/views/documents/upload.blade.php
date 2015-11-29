@@ -1,5 +1,17 @@
 @extends('app')
 @section('content')
+    @if(isset($message))
+    <div>
+        {{ $message }}
+    </div>
+    @endif
+
+    @if(\Session::has('message'))
+        <div class="alert alert-success">
+            <p>{!! \Session::get('message') !!}</p>
+        </div>
+    @endif
+
     {!! Form::open(array('route' => 'upload', 'files' => true)) !!}
 
     <div class="form-group">

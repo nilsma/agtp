@@ -44,6 +44,8 @@ class DocumentsController extends Controller
             redirect('/');
         }
 
+
+
         $username = Auth::user()->name;
 
         $documents = Documents::where('owner_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
@@ -51,7 +53,9 @@ class DocumentsController extends Controller
 
     }
 
-    public function upload() {
+    public function upload(Request $request) {
+
+        Request::session()->reflash();
 
         $username = Auth::user()->name;
 

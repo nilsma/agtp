@@ -14,11 +14,14 @@ class CreateTableProtocols extends Migration
     {
         Schema::create('protocols', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('owner_id')->unsigned()->default(0);
+            $table->foreign('owner_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->boolean('is_approved');
             $table->string('title', 60);
             $table->string('filename', 60);
-            $table->timestamp('uploaded_at');
-            $table->timestamp('event_date');
-            $table->boolean('is_approved');
+            $table->timestamps();
         });
     }
 

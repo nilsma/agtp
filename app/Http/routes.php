@@ -71,9 +71,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('comment/delete/{id}','CommentController@destroy');
 
     /* DOKUMENTER / DOCUMENTS */
-    Route::get('/mine-dokumenter', 'DocumentsController@my_documents');
-    Route::get('/last-opp', 'DocumentsController@upload');
-    Route::post('/upload', ['as' => 'upload', 'uses' => 'DocumentsController@store']);
+    Route::get('/mine-dokumenter', ['as' => 'mine-dokumenter', 'uses' => 'DocumentsController@my_documents']);
+    Route::get('/last-opp', ['as' => 'last-opp', 'uses' => 'DocumentsController@upload']);
+    Route::post('/upload', ['as' => 'upload', 'uses' => 'UploadsController@upload']);
 });
 
 /* BRUKER / USERS */
