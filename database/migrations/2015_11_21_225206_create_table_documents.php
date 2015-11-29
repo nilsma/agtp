@@ -14,9 +14,13 @@ class CreateTableDocuments extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('owner_id')->unsigned()->default(0);
+            $table->foreign('owner_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->string('title', 60);
             $table->string('filename', 60);
-            $table->timestamp('uploaded_at');
+            $table->timestamps();
         });
     }
 

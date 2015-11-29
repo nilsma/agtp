@@ -16,8 +16,8 @@
             <h3>Behandle dokumenter</h3>
             <nav id="documents">
                 <ul>
-                    <li><a href="">Mine dokumenter</a></li>
-                    <li><a href="">Last opp dokument</a></li>
+                    <li><a href="/mine-dokumenter">Mine dokumenter</a></li>
+                    <li><a href="/last-opp">Last opp dokument</a></li>
                 </ul>
             </nav>
         </div>

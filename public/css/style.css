@@ -149,8 +149,23 @@ div.post-header div:first-child div {
     justify-content: center;
 }
 
+div.post-header div:first-child div a {
+    margin-right: 15px;
+}
+
+div.post-header div:first-child div a:last-child {
+    margin-right: 0;
+}
+
 footer {
     background-color: lightgray;
     margin-top: 20px;
 }
 
+div.document {
+    margin-bottom: 30px;
+}
+
+div.document h3 span {
+    font-size: 14px;
+}

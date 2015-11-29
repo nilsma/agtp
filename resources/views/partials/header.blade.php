@@ -3,8 +3,8 @@
         @if(!Auth::check())
             <div id="login-register" class="col-lg-12">
                 <ul>
-                    <li><a href="/login">Logg inn</a></li>
-                    <li><a href="/admin/register">Registrer</a></li>
+                    <li><a href="/logg-inn">Logg inn</a></li>
+                    <li><a href="/registrer">Registrer</a></li>
                 </ul>
             </div>
         @else

@@ -44,7 +44,6 @@ class PostController extends Controller
 
         $posts = Posts::where('author_id',$request->user()->id)->orderBy('created_at','desc')->paginate(5);
 
-
         return view('posts.show-all', ['username' => $request->user()->name])->withPosts($posts);
     }
 
@@ -72,7 +71,7 @@ class PostController extends Controller
             $message = 'Post published successfully';
         }
         $post->save();
-        return redirect('edit/'.$post->slug)->withMessage($message);
+        return redirect('edit/' . $post->slug)->withMessage($message);
     }
 
     /**
@@ -177,7 +176,6 @@ class PostController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        //
         $post = Posts::find($id);
         if($post && ($post->author_id == $request->user()->id || $request->user()->is_admin()))
         {

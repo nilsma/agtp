@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Request;
+use App\Documents;
+use App\Http\Controllers\Controller;
 use Auth;
 use DB;
+use Illuminate\Support\Facades\Input;
+use Request;
 
 class DocumentsController extends Controller
 {
@@ -34,9 +37,41 @@ class DocumentsController extends Controller
         ]);
     }
 
-    public function my_documents(Request $request) {
+    public function my_documents() {
 
+        if(!Auth::check()) {
+            redirect('/');
+        }
 
+        $username = Auth::user()->name;
+
+        $documents = Documents::where('owner_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        return view('documents.show-all', ['username' => $username, 'documents' => $documents]);
+
+    }
+
+    public function upload() {
+
+        $username = Auth::user()->name;
+
+        return view('documents.upload', ['username' => $username]);
+
+    }
+
+    public function store(Request $request) {
+
+        /*
+        $title = Request::input('title');
+        $file = Request::file('file');
+        $extension = Request::file('file')->getClientOriginalExtension();
+        $filename = Request::file('file')->getClientOriginalName();
+
+        echo $title . " --- " . $file . " --- " . $filename . " --- " . $extension;
+        */
+
+        Request::file('file')->move(public_path('uploads/skriv/'), Request::file('file')->getClientOriginalName());
+
+        return view('member.dashboard', ['username' => Auth::user()->name]);
 
     }
 

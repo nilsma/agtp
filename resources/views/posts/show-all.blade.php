@@ -7,7 +7,8 @@
                 <div>
                     <h3>{{ $post->title }}</h3>
                     <div>
-                        <a class="btn btn-primary" href="{{ url('edit/' . $post->slug) }}">Edit post</a>
+                        <a class="btn btn-danger" href="{{ url('delete/' . $post->id) }}">Delete</a>
+                        <a class="btn btn-primary" href="{{ url('edit/' . $post->slug) }}">Edit</a>
                     </div>
                 </div>
                 <div>
