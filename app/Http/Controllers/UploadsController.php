@@ -8,97 +8,123 @@ use Request;
 use Illuminate\Database\QueryException;
 use Auth;
 use App\Documents;
+use Illuminate\Support\Facades\Redirect;
 
 class UploadsController extends Controller
 {
 
-    public function upload(Request $request)
+    public function fileExists($filename, $folder)
+    {
+        echo $folder . $filename;
+        return file_exists($folder . $filename);
+    }
+
+    public function upload()
     {
         if(Request::file('file')->getClientOriginalExtension() == 'pdf') {
 
-            switch(Request::input('document_type'))
-            {
-                case 'skriv':
-                    $doc_folder = 'uploads/skriv/';
-                    $title = Request::input('title');
-                    $filename = Request::file('file')->getClientOriginalName();
-                    $this->saveDocument($title, $filename, $doc_folder);
-                    break;
+            if(Request::input('document_type') == 'skriv') {
 
-                case 'til_godkjenning':
-                    $doc_folder = 'uploads/referater/til_godkjenning/';
-                    $is_approved = false;
-                    $title = Request::input('title');
-                    $filename = Request::file('file')->getClientOriginalName();
-                    $this->saveProtocol($title, $filename, $doc_folder, $is_approved);
-                    break;
+                $document = new Documents();
+                $document->id = NULL;
+                $document->owner_id = Auth::user()->id;
+                $document->title = Request::input('title');
+                $document->filename = Request::file('file')->getClientOriginalName();
+                $document->created_at = NULL;
+                $document->updated_at = NULL;
 
-                case 'godkjent':
-                    $doc_folder = 'uploads/referater/godkjent/';
-                    $is_approved = true;
-                    $title = Request::input('title');
-                    $filename = Request::file('file')->getClientOriginalName();
-                    $this->saveProtocol($title, $filename, $doc_folder, $is_approved);
-                    break;
+                if(!file_exists(public_path('uploads/skriv/' . Request::file('file')->getClientOriginalName()))) {
 
+                    try {
+
+                        Request::file('file')->move(public_path('uploads/skriv/'), Request::file('file')->getClientOriginalName());
+                        $document->save();
+                        \Session::flash('message', 'Dokumentet ble lagt til!');
+                        return redirect()->route('last-opp', ['username' => Auth::user()->name]);
+
+                    } catch(QueryException $e) {
+
+                        echo $e->getMessage();
+
+                    }
+
+                } else {
+
+                    return redirect('last-opp')->with('message', 'Skrivet (' . $document->filename . ') eksisterer allerede! Prøv på nytt!');
+
+                }
+
+            } elseif(Request::input('document_type') == 'til_godkjenning') {
+
+                $protocol = new Protocols();
+                $protocol->id = NULL;
+                $protocol->owner_id = Auth::user()->id;
+                $protocol->is_approved = false;
+                $protocol->title = Request::input('title');
+                $protocol->filename = Request::file('file')->getClientOriginalName();
+                $protocol->created_at = NULL;
+                $protocol->updated_at = NULL;
+
+                if(!file_exists(public_path('uploads/referater/' . Request::file('file')->getClientOriginalName()))) {
+
+                    try {
+
+                        Request::file('file')->move(public_path('uploads/referater/'), Request::file('file')->getClientOriginalName());
+                        $protocol->save();
+                        \Session::flash('message', 'Referatet ble lagt til!');
+                        return redirect()->route('last-opp', ['username' => Auth::user()->name]);
+
+                    } catch(QueryException $e) {
+
+                        echo $e->getMessage();
+
+                    }
+
+                } else {
+
+                    return redirect('last-opp')->with('message', 'Referatet (' . $protocol->filename . ') eksisterer allerede! Prøv på nytt!');
+
+                }
+
+            } elseif(Request::input('document_type') == 'godkjent') {
+
+                $protocol = new Protocols();
+                $protocol->id = NULL;
+                $protocol->owner_id = Auth::user()->id;
+                $protocol->is_approved = true;
+                $protocol->title = Request::input('title');
+                $protocol->filename = Request::file('file')->getClientOriginalName();
+                $protocol->created_at = NULL;
+                $protocol->updated_at = NULL;
+
+                if(!file_exists(public_path('uploads/referater/' . Request::file('file')->getClientOriginalName()))) {
+
+                    try {
+
+                        Request::file('file')->move(public_path('uploads/referater/'), Request::file('file')->getClientOriginalName());
+                        $protocol->save();
+                        \Session::flash('message', 'Referatet ble lagt til!');
+                        return redirect()->route('last-opp', ['username' => Auth::user()->name]);
+
+                    } catch(QueryException $e) {
+
+                        echo $e->getMessage();
+
+                    }
+
+                } else {
+
+                    return redirect('last-opp')->with('message', 'Referatet (' . $protocol->filename . ') eksisterer allerede! Prøv på nytt');
+
+                }
+
+            } else {
+                //
             }
-
-            return redirect()->route('last-opp')->with('message', Request::file('file')->getClientOriginalName() . ' uploaded!');
 
         } else {
 
-            return redirect()->route('mine-dokumenter')->withErrors(['only PDF is allowed for the time being']);
-
-        }
-
-    }
-
-    private function saveDocument($title, $filename, $doc_folder)
-    {
-
-        $document = new Documents();
-        $document->id = NULL;
-        $document->owner_id = Auth::user()->id;
-        $document->title = $title;
-        $document->filename = $filename;
-        $document->created_at = NULL;
-        $document->updated_at = NULL;
-
-        try {
-
-            $document->save();
-
-            Request::file('file')->move(public_path($doc_folder), Request::file('file')->getClientOriginalName());
-
-        } catch(QueryException $e) {
-
-            return redirect()->route('/')->withErrors($e->getMessage());
-
-        }
-
-    }
-
-    private function saveProtocol($title, $filename, $doc_folder, $is_approved)
-    {
-
-        $protocol = new Protocols();
-        $protocol->id = NULL;
-        $protocol->owner_id = Auth::user()->id;
-        $protocol->is_approved = $is_approved;
-        $protocol->title = $title;
-        $protocol->filename = $filename;
-        $protocol->created_at = NULL;
-        $protocol->updated_at = NULL;
-
-        try {
-
-            Request::file('file')->move(public_path($doc_folder), Request::file('file')->getClientOriginalName());
-
-            $protocol->save();
-
-        } catch(QueryException $e) {
-
-            return redirect()->route('/')->withErrors($e->getMessage());
+            return redirect()->route('last-opp')->with('message', 'Kun PDF-dokumenter tillatt for tiden! Prøv på nytt.');
 
         }
 

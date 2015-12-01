@@ -72,8 +72,14 @@ Route::group(['middleware' => ['auth']], function() {
 
     /* DOKUMENTER / DOCUMENTS */
     Route::get('/mine-dokumenter', ['as' => 'mine-dokumenter', 'uses' => 'DocumentsController@my_documents']);
-    Route::get('/last-opp', ['as' => 'last-opp', 'uses' => 'DocumentsController@upload']);
+    Route::match(['get', 'post'], '/last-opp', ['as' => 'last-opp', 'uses' => 'DocumentsController@upload']);
     Route::post('/upload', ['as' => 'upload', 'uses' => 'UploadsController@upload']);
+    Route::get('/documents/delete/{id}', 'DocumentsController@delete');
+    Route::match(['get', 'post'], '/documents/store', 'DocumentsController@store');
+
+    /* REFERATER / PROTOCOLS */
+    Route::get('/protocols/delete/{id}', 'ProtocolsController@destroy');
+    Route::get('/protocols/toggle/{id}', 'ProtocolsController@toggle');
 });
 
 /* BRUKER / USERS */

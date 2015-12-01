@@ -1,13 +1,7 @@
 @extends('app')
 @section('content')
-    @if(isset($message))
-    <div>
-        {{ $message }}
-    </div>
-    @endif
-
     @if(\Session::has('message'))
-        <div class="alert alert-success">
+        <div class="alert alert-info">
             <p>{!! \Session::get('message') !!}</p>
         </div>
     @endif

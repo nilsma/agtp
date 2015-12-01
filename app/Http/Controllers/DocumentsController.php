@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Documents;
 use App\Http\Controllers\Controller;
+use App\Protocols;
 use Auth;
 use DB;
 use Illuminate\Database\QueryException;
@@ -44,18 +45,17 @@ class DocumentsController extends Controller
             redirect('/');
         }
 
-
-
         $username = Auth::user()->name;
 
-        $documents = Documents::where('owner_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
-        return view('documents.show-all', ['username' => $username, 'documents' => $documents]);
+        $documents = Documents::where(['owner_id' => Auth::user()->id])->orderBy('created_at', 'desc')->get();
+        $til_godkjenning = Protocols::where(['owner_id' => Auth::user()->id, 'is_approved' => false])->orderBy('created_at', 'desc')->get();
+        $godkjente = Protocols::where(['owner_id' => Auth::user()->id, 'is_approved' => true])->orderBy('created_at', 'desc')->get();
+
+        return view('documents.show-all', ['username' => $username, 'documents' => $documents, 'til_godkjenning' => $til_godkjenning, 'godkjente' => $godkjente]);
 
     }
 
-    public function upload(Request $request) {
-
-        Request::session()->reflash();
+    public function upload() {
 
         $username = Auth::user()->name;
 
@@ -63,47 +63,34 @@ class DocumentsController extends Controller
 
     }
 
-    public function store(Request $request) {
+    public function store() {
 
-        if(Request::file('file')->getClientOriginalExtension() == 'pdf') {
+        //
 
-            $doc_folder = "";
+    }
 
-            switch(Request::input('document_type'))
-            {
-                case 'skriv':
-                    $doc_folder = 'uploads/skriv/';
-                    break;
+    public function delete($id)
+    {
 
-                case 'til_godkjenning':
-                    $doc_folder = 'uploads/referater/til_godkjenning/';
-                    break;
+        if(Auth::check()) {
 
-                case 'godkjent':
-                    $doc_folder = 'uploads/referater/godkjent/';
-                    break;
+            $user = Auth::user();
+            $document = Documents::findOrFail($id);
 
-            }
+            if ($document->owner_id == $user->id) {
 
-            $document = new Documents();
-            $document->id = NULL;
-            $document->owner_id = Auth::user()->id;
-            $document->title = Request::input('title');
-            $document->filename = Request::file('file')->getClientOriginalName();
+                $document->delete();
+                return redirect('mine-dokumenter')->with('message', $document->title . ' (' . $document->filename . ') ble slettet');
 
-            try {
+            } else {
 
-                $document->save();
-
-                Request::file('file')->move(public_path($doc_folder), Request::file('file')->getClientOriginalName());
-
-                return view('member.dashboard', ['username' => Auth::user()->name]);
-
-            } catch(QueryException $e) {
-
-                return view('/', ['username' => Auth::user()->name])->withErrors($e->getMessage());
+                return redirect('/mine-dokumenter', ['username' => $user->name])->withErrors(['You can only delete your own documents!']);
 
             }
+
+        } else {
+
+            return redirect('/')->withErrors(['You have to login first']);
 
         }
 

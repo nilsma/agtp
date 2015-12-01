@@ -157,15 +157,30 @@ div.post-header div:first-child div a:last-child {
     margin-right: 0;
 }
 
-footer {
-    background-color: lightgray;
-    margin-top: 20px;
-}
-
+div.referat,
 div.document {
     margin-bottom: 30px;
 }
 
-div.document h3 span {
+div.referat div:last-child {
+    display: flex;
+    flex-direction: row;
+}
+
+div.referat div:last-child a:first-child {
+    margin-right: 20px;
+}
+
+div.referat div:first-child {
+    margin-right: 20px;
+}
+
+div.referat h4 span,
+div.document h4 span {
     font-size: 14px;
+}
+
+footer {
+    background-color: lightgray;
+    margin-top: 20px;
 }
