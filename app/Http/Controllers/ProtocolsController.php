@@ -76,12 +76,66 @@ class ProtocolsController extends Controller
         //
     }
 
+    public function destroy($id)
+    {
+
+        if(Auth::check()) {
+
+            $user = Auth::user();
+            $protocol = Protocols::findOrFail($id);
+
+            if ($protocol->owner_id == $user->id) {
+
+                if($protocol->delete()) {
+
+                    if(file_exists(public_path('uploads/referater/' . $protocol->filename))) {
+
+                        try {
+
+                            unlink(public_path('uploads/referater/' . $protocol->filename));
+
+                        } catch(\Exception $e) {
+
+                            return redirect('mine-dokumenter')->with('message', 'Noe gikk feil under sletting av referatet ' . $protocol->filename);
+
+                        }
+
+                        return redirect('mine-dokumenter')->with('message', $protocol->title . ' (' . $protocol->filename . ') ble slettet');
+
+                    } else {
+
+                        return redirect('mine-dokumenter')->with('message', 'Det referatet eksisterer ikke! Prøv på nytt!');
+
+                    }
+
+                } else {
+
+                    return redirect('mine-dokumenter')->with('message', 'Noe gikk feil under sletting av referatet ' . $protocol->filename);
+
+                }
+
+
+            } else {
+
+                return redirect('/mine-dokumenter', ['username' => $user->name])->withErrors(['Du kan ikke slette andre brukeres referater!']);
+
+            }
+
+        } else {
+
+            return redirect('/')->withErrors(['You have to login first']);
+
+        }
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    /*
     public function destroy($id)
     {
 
@@ -108,6 +162,7 @@ class ProtocolsController extends Controller
         }
 
     }
+    */
 
     public function toggle($id)
     {

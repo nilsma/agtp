@@ -4,7 +4,7 @@
     <div id="posts" class="col-lg-7">
         @if ( !$posts->count() )
             <div id="post-main">
-                There is no post till now. Login and write a new post now!!!
+                <p>Ingen poster foreløpig!</p>
             </div>
         @else
             @foreach( $posts as $post )
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <article class="post-content">
-                        {!! str_limit($post->body, $limit = 1500, $end = '....... <a href='.url("/".$post->slug).'>Read More</a>') !!}
+                        {!! str_limit($post->body, $limit = 1000, $end = ' ... <a href='.url("/".$post->slug).'>Read More</a>') !!}
                     </article>
                 </div>
             @endforeach

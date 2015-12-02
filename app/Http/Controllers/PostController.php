@@ -21,6 +21,13 @@ class PostController extends Controller
         //
     }
 
+    public function testcreate(Request $request) {
+
+        echo $request->title;
+        echo $request->body;
+
+    }
+
     public function create(Request $request) {
 
         if(Auth::check() && $request->user()->can_post()) {

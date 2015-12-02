@@ -35,9 +35,9 @@ Route::get('/logout', 'Auth\AuthController@getLogout');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::get('/register', 'Auth\AuthController@getRegister');
-Route::post('/register', 'Auth\AuthController@postRegister');
+Route::post('/register', ['as' => 'register'], 'Auth\AuthController@postRegister');
 Route::get('/registrer', 'Auth\AuthController@getRegister');
-Route::post('/registrer', 'Auth\AuthController@postRegister');
+Route::post('/registrer', ['as' => 'registrer', 'uses' => 'Auth\AuthController@postRegister']);
 
 Route::controllers([
     'password' => 'Auth\PasswordController',
@@ -74,7 +74,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/mine-dokumenter', ['as' => 'mine-dokumenter', 'uses' => 'DocumentsController@my_documents']);
     Route::match(['get', 'post'], '/last-opp', ['as' => 'last-opp', 'uses' => 'DocumentsController@upload']);
     Route::post('/upload', ['as' => 'upload', 'uses' => 'UploadsController@upload']);
-    Route::get('/documents/delete/{id}', 'DocumentsController@delete');
+    Route::get('/documents/delete/{id}', 'DocumentsController@destroy');
     Route::match(['get', 'post'], '/documents/store', 'DocumentsController@store');
 
     /* REFERATER / PROTOCOLS */
