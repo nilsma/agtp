@@ -39,10 +39,6 @@ Route::post('/register', ['as' => 'register'], 'Auth\AuthController@postRegister
 Route::get('/registrer', 'Auth\AuthController@getRegister');
 Route::post('/registrer', ['as' => 'registrer', 'uses' => 'Auth\AuthController@postRegister']);
 
-Route::controllers([
-    'password' => 'Auth\PasswordController',
-]);
-
 /* added by blog */
 Route::get('/post','PostController@index');
 
@@ -54,14 +50,32 @@ Route::controllers([
 
 Route::group(['middleware' => ['auth']], function() {
 
+    /* ADMIN */
+    Route::get('/admin/users', function() {
+        return View::make('admin.users')->with('username', Auth::user()->name);
+    });
+    Route::get('/admin/user_edit/{id}', 'AdminController@user_edit');
+    Route::post('/admin/edit_user', 'AdminController@edit_user');
+
+    Route::get('/admin/users', 'AdminController@user_administration');
+
     /* DASHBOARD */
     Route::get('/dashboard', 'UserController@dashboard');
+    Route::get('/endre-passord', function() {
+        return View::make('member.password')->with('username', Auth::user()->name);
+    });
+    Route::post('/endre-passord', ['as' => 'endre-passord', 'uses' => 'UserController@changePassword']);
+
+    Route::get('/epostlister', function() {
+        return View::make('member.maillist')->with('username', Auth::user()->name);
+    });
 
     /* POSTER / POSTS */
     Route::get('/mine-poster', 'PostController@my_posts');
 
     Route::get('ny-post','PostController@create');
     Route::post('ny-post','PostController@store');
+
     Route::get('edit/{slug}','PostController@edit');
     Route::post('update','PostController@update');
     Route::get('delete/{id}','PostController@destroy');

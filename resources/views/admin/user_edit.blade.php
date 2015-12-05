@@ -1,11 +1,11 @@
 @extends('app')
-
 @section('content')
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Register</div>
+                    <div class="panel-heading">Endre bruker</div>
                     <div class="panel-body">
 
                         @if (count($errors) > 0)
@@ -19,46 +19,40 @@
                             </div>
                         @endif
 
-                        <form class="form-horizontal" role="form" method="POST" action="/auth/register">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        {!! Form::open(array('url' => '/admin/edit_user', 'method' => 'POST', 'class' => 'form-horizontal', 'role' => 'form')) !!}
+
+                            {!! Form::hidden('user_id', $edit_user->id) !!}
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Name</label>
+                                {!! Form::label('name', 'Navn', array('class' => 'col-md-4 control-label')) !!}
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                                    {!! Form::text('name', $edit_user->name, array('required', 'class' => 'form-control')) !!}
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">E-Mail Address</label>
+                                {!! Form::label('email', 'Epost', array('class' => 'col-md-4 control-label')) !!}
                                 <div class="col-md-6">
-                                    <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+                                    {!! Form::text('email', $edit_user->email, array('required', 'class' => 'form-control')) !!}
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Password</label>
+                                {!! Form::label('role', 'Rolle', array('class' => 'col-md-4 control-label')) !!}
                                 <div class="col-md-6">
-                                    <input type="password" class="form-control" name="password">
+                                    {!! Form::select('role', array('subscriber' => 'Subscriber', 'author' => 'Author', 'admin' => 'Admin'), $edit_user->role) !!}
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Confirm Password</label>
-                                <div class="col-md-6">
-                                    <input type="password" class="form-control" name="password_confirmation">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
+                            <div class="form-group form-nav">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        Register
-                                    </button>
+                                    {!! Form::submit('Lagre bruker', array('class' => 'btn btn-success')) !!}
+                                    <a class="btn btn-danger" href="/admin/users">Avbryt</a>
                                 </div>
-
                             </div>
-                        </form>
+
+                        {!! Form::close() !!}
+
                     </div>
                 </div>
             </div>

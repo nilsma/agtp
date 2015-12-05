@@ -14,10 +14,10 @@ class PostFormRequest extends Request {
      */
     public function authorize()
     {
-        if($this->user()->can_post())
-        {
+        if($this->user()->can_post()) {
             return true;
         }
+
         return false;
     }
     /**
@@ -28,8 +28,7 @@ class PostFormRequest extends Request {
     public function rules()
     {
         return [
-            'title' => 'required|unique:posts|max:255',
-            'title' => array('Regex:/^[A-Za-z0-9 ]+$/'),
+            'title' => 'required|unique:posts|max:60',
             'body' => 'required',
         ];
     }

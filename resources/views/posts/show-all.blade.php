@@ -1,6 +1,7 @@
 @extends('app')
 @section('content')
 <div id="posts" class="col-lg-12">
+    @if(count($posts) > 0)
     @foreach($posts as $post)
         <div class="post">
             <div class="post-header">
@@ -18,6 +19,12 @@
             {!! $post->body !!}
         </div>
     @endforeach
+    @else
+        <p>Du har ikke laget noen poster enda!</p>
+    @endif
+</div>
+<div class="col-lg-12">
+    <a class="btn btn-primary" href="/dashboard">Tilbake</a>
 </div>
 @endsection
 

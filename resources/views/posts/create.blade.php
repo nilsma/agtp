@@ -12,6 +12,7 @@
                 toolbar : "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
             });
         </script>
+        <!-- <form action="/ny-post" method="post"> -->
         <form action="/ny-post" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group">
@@ -20,8 +21,9 @@
             <div class="form-group">
                 <textarea name='body' class="form-control">{{ old('body') }}</textarea>
             </div>
-            <input type="submit" name='publish' class="btn btn-success" value = "Publish"/>
-            <input type="submit" name='save' class="btn btn-default" value = "Save Draft" />
+            <input type="submit" name='publish' class="btn btn-success" value = "Publiser"/>
+            <input type="submit" name='save' class="btn btn-default" value = "Lagre" />
+            <a class="btn btn-danger" href="/dashboard">Avbryt</a>
         </form>
     </div>
 @endsection

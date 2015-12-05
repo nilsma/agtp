@@ -3,14 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use App\User;
 use App\Posts;
 use Illuminate\Http\Request;
 use Auth;
+use Hash;
+use Redirect;
 
 class UserController extends Controller {
-    /*
+
+    public function changePassword(Request $request) {
+
+        if($request->input('new_password') == $request->input('repeat_password')) {
+
+            $user = Auth::user();
+
+            if(Hash::check($request->input('old_password'), $user->password)) {
+
+                $user->password = Hash::make($request->input('new_password'));
+                $user->save();
+
+                $view_params = ['type' => 'alert alert-success', 'message' => 'Passordet ble oppdatert!'];
+
+                return Redirect::to('/endre-passord')->with($view_params);
+
+            } else {
+
+                $view_params = ['type' => 'alert alert-warning', 'message' => 'Det gamle passordet du oppgav var feil!'];
+                return Redirect::to('/endre-passord')->with($view_params);
+
+            }
+
+        } else {
+
+            return Redirect::to('/endre-passord')->with(['type' => 'alert alert-warning', 'message' => 'De nye passordene må være like!']);
+
+        }
+
+    }
+
+    /**
      * Display active posts of a particular user
      *
      * @param int $id
@@ -23,7 +55,8 @@ class UserController extends Controller {
         $title = User::find($id)->name;
         return view('home')->withPosts($posts)->withTitle($title);
     }
-    /*
+
+    /**
      * Display all of the posts of a particular user
      *
      * @param Request $request
@@ -37,7 +70,8 @@ class UserController extends Controller {
         $title = $user->name;
         return view('posts.show-all')->withPosts($posts)->withTitle($title);
     }
-    /*
+
+    /**
      * Display draft posts of a currently active user
      *
      * @param Request $request
@@ -51,6 +85,7 @@ class UserController extends Controller {
         $title = $user->name;
         return view('home')->withPosts($posts)->withTitle($title);
     }
+
     /**
      * profile for user
      */

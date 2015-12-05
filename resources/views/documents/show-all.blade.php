@@ -7,7 +7,7 @@
     @endif
     <div id="referater" class="col-lg-12">
         <div id="godkjente">
-            <h3>Mine referater <span>(godkjente)</span></h3>
+            <h3>Godkjente referater</h3>
             @if(count($godkjente) > 0)
                 @foreach($godkjente as $ref)
                     <div class="referat">
@@ -26,7 +26,7 @@
             @endif
         </div>
         <div id="til_godkjenning">
-            <h3>Mine referater <span>(til godkjenning)</span></h3>
+            <h3>Referater til godkjenning</h3>
             @if(count($til_godkjenning) > 0)
                 @foreach($til_godkjenning as $ref)
                     <div class="referat">
@@ -62,5 +62,8 @@
                 <p>Du har ikke lastet opp noen skriv enda.</p>
             </div>
         @endif
+    </div>
+    <div class="col-lg-12">
+        <a class="btn btn-primary" href="/dashboard">Tilbake</a>
     </div>
 @endsection
