@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     /* POSTER / POSTS */
     Route::get('/mine-poster', 'PostController@my_posts');
+    Route::get('/alle-poster', 'PostController@all_posts');
 
     Route::get('ny-post','PostController@create');
     Route::post('ny-post','PostController@store');
@@ -86,6 +87,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     /* DOKUMENTER / DOCUMENTS */
     Route::get('/mine-dokumenter', ['as' => 'mine-dokumenter', 'uses' => 'DocumentsController@my_documents']);
+    Route::get('/alle-dokumenter', ['as' => 'alle-dokumenter', 'uses' => 'DocumentsController@all_documents']);
     Route::match(['get', 'post'], '/last-opp', ['as' => 'last-opp', 'uses' => 'DocumentsController@upload']);
     Route::post('/upload', ['as' => 'upload', 'uses' => 'UploadsController@upload']);
     Route::get('/documents/delete/{id}', 'DocumentsController@destroy');
@@ -96,7 +98,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/protocols/toggle/{id}', 'ProtocolsController@toggle');
 });
 
-/* BRUKER / USERS */
+/* BRUKERE / USERS */
 Route::get('user/{id}','UserController@profile')->where('id', '[0-9]+');
 Route::get('user/{id}/posts','UserController@user_posts')->where('id', '[0-9]+');
 Route::get('/{slug}',['as' => 'post', 'uses' => 'PostController@show'])->where('slug', '[A-Za-z0-9-_]+');

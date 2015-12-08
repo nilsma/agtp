@@ -4,8 +4,7 @@
         <div id="users" class="col-lg-12">
             @foreach($users as $user)
                 <div class="user">
-                    <h3>{{ $user->name }}</h3>
-                    <p>{{ $user->email }} (<span>{{ $user->role }}</span>) <a class="btn btn-primary" href="/admin/user_edit/{{$user->id}}">edit</a></p>
+                    <p>{{ $user->name }} <span class="role">({{ $user->role }})</span> - <span class="email">{{ $user->email }}</span> <a class="btn btn-primary" href="/admin/user_edit/{{$user->id}}">edit</a></p>
                 </div>
             @endforeach
         </div>

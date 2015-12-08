@@ -6,10 +6,7 @@
             @foreach($godkjente as $ref)
                 <div class="referat">
                     <h4>{{ $ref->title }} <span>(<a href="{{ url('uploads/referater/godkjente/' . $ref->filename) }}">{{ $ref->filename }}</a>)</span></h4>
-                    <p>
-                        Uploaded at: {{ $ref->created_at->format('M d, Y \a\t h:i a') }}
-                        - by {{ $ref->owner->name }}
-                    </p>
+                    <p>Uploaded at: {{ $ref->created_at->format('M d, Y \a\t h:i a') }}</p>
                     <div>
                         <a class="btn btn-danger" href="{{ '/protocols/delete/' . $ref->id }}">Slett referat</a>
                         <a class="btn btn-warning" href="{{ '/protocols/toggle/' . $ref->id }}">Fjern godkjenning</a>
@@ -18,7 +15,7 @@
             @endforeach
         @else
             <div>
-                <p>Der er ingen godkjente referater enda!</p>
+                <p>Du har ikke lastet opp noen referater enda.</p>
             </div>
         @endif
     </div>
@@ -28,10 +25,7 @@
             @foreach($til_godkjenning as $ref)
                 <div class="referat">
                     <h4>{{ $ref->title }} <span>(<a href="{{ url('uploads/referater/til_godkjenning/' . $ref->filename) }}">{{ $ref->filename }}</a>)</span></h4>
-                    <p>
-                        Uploaded at: {{ $ref->created_at->format('M d, Y \a\t h:i a') }}
-                        - by {{ $ref->owner->name }}
-                    </p>
+                    <p>Uploaded at: {{ $ref->created_at->format('M d, Y \a\t h:i a') }}</p>
                     <div>
                         <a class="btn btn-danger" href="{{ '/protocols/delete/' . $ref->id }}">Slett referat</a>
                         <a class="btn btn-success" href="{{ '/protocols/toggle/' . $ref->id }}">Godkjenn referat</a>
@@ -40,20 +34,17 @@
             @endforeach
         @else
             <div>
-                <p>Der er ingen referater til godkjenning enda!</p>
+                <p>Du har ingen referater til godkjenning.</p>
             </div>
         @endif
     </div>
     <div id="documents" class="col-lg-12">
-        <h3>Opplastede skriv</h3>
+        <h3>Mine skriv</h3>
         @if(count($documents) > 0)
             @foreach($documents as $doc)
                 <div class="document">
                     <h4>{{ $doc->title }} <span>(<a href="{{ url('uploads/skriv/' . $doc->filename) }}">{{ $doc->filename }}</a>)</span></h4>
-                    <p>
-                        Uploaded at: {{ $doc->created_at->format('M d, Y \a\t h:i a') }}
-                        - by {{ $doc->owner->name }}
-                    </p>
+                    <p>Uploaded at: {{ $doc->created_at->format('M d, Y \a\t h:i a') }}</p>
                     <div>
                         <a class="btn btn-danger" href="{{ '/documents/delete/' . $doc->id }}">Slett dokument</a>
                     </div>
@@ -61,7 +52,7 @@
             @endforeach
         @else
             <div>
-                <p>Der er ingen opplastede skriv enda!</p>
+                <p>Du har ikke lastet opp noen skriv enda.</p>
             </div>
         @endif
     </div>

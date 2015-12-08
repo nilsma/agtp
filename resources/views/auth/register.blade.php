@@ -9,45 +9,33 @@
                     <div class="panel-heading">Registrer</div>
                     <div class="panel-body">
 
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
-
                         {!! Form::open(array('url' => '/auth/register', 'method' => 'POST', 'class' => 'form-horizontal', 'role' => 'form')) !!}
 
                         <div class="form-group">
-                            {!! Form::label('name', 'Name', array('class' => 'col-md-4 control-label')) !!}
+                            {!! Form::label('name', 'Navn', array('class' => 'col-md-4 control-label')) !!}
                             <div class="col-md-6">
-                                {!! Form::text('name', old('name'), array('required', 'class' => 'form-control', 'placeholder' => 'Your name')) !!}
+                                {!! Form::text('name', old('name'), array('required', 'class' => 'form-control', 'placeholder' => 'Brukernavn')) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {!! Form::label('email', 'Email', array('class' => 'col-md-4 control-label')) !!}
                             <div class="col-md-6">
-                                {!! Form::email('email', old('email'), array('required', 'class' => 'form-control', 'placeholder' => 'Email address')) !!}
+                                {!! Form::email('email', old('email'), array('required', 'class' => 'form-control', 'placeholder' => 'Epostadresse')) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('password', null, array('class' => 'col-md-4 control-label')) !!}
+                            {!! Form::label('password', 'Passord', array('class' => 'col-md-4 control-label')) !!}
                             <div class="col-md-6">
-                                {!! Form::password('password', array('required', 'class' => 'form-control', 'placeholder' => 'Enter password')) !!}
+                                {!! Form::password('password', array('required', 'class' => 'form-control', 'placeholder' => 'Passord')) !!}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            {!! Form::label('confirm', null, array('class' => 'col-md-4 control-label', 'name' => 'password_confirmation')) !!}
+                            {!! Form::label('confirm', 'Bekreft passord', array('class' => 'col-md-4 control-label', 'name' => 'password_confirmation')) !!}
                             <div class="col-md-6">
-                                {!! Form::password('password_confirmation', array('required', 'class' => 'form-control', 'placeholder' => 'Repeat password')) !!}
+                                {!! Form::password('password_confirmation', array('required', 'class' => 'form-control', 'placeholder' => 'Bekreft passord')) !!}
                             </div>
                         </div>
 

@@ -61,10 +61,13 @@ class AdminController extends Controller
 
     }
 
-    public function user_administration()
+    public function user_administration($column = null)
     {
+        if($column == null) {
+            $column = 'name';
+        }
 
-        $users = User::all();
+        $users = User::all()->sortBy($column);
 
         return view('admin.user_administration', ['username' => Auth::user()->name, 'users' => $users]);
 

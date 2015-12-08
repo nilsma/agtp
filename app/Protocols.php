@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Protocols extends Model
 {
 
+    # protected $table = 'protocols';
+    # protected $guarded = ['id'];
+
+    protected $guarded = [];
+
     public function owner()
     {
-        return $this->hasOne('App\User');
+        return $this->belongsTo('App\User', 'owner_id');
     }
 
 }

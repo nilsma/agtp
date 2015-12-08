@@ -21,13 +21,6 @@ class PostController extends Controller
         //
     }
 
-    public function testcreate(Request $request) {
-
-        echo $request->title;
-        echo $request->body;
-
-    }
-
     public function create(Request $request) {
 
         if(Auth::check() && $request->user()->can_post()) {
@@ -46,12 +39,30 @@ class PostController extends Controller
     public function my_posts(Request $request) {
 
         if(!Auth::check()) {
-            redirect('/');
+
+            return Redirect::to('/')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Du må logge inn først!'));
+
         }
 
         $posts = Posts::where('author_id',$request->user()->id)->orderBy('created_at','desc')->paginate(5);
 
         return view('posts.show-all', ['username' => $request->user()->name])->withPosts($posts);
+
+    }
+
+    public function all_posts()
+    {
+
+        if(!Auth::check()) {
+
+            return Redirect::to('/')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Du må logge inn først!'));
+
+        }
+
+        $posts = Posts::all();
+
+        return view('posts.show-all')->with(array('username' => Auth::user()->name, 'posts' => $posts));
+
     }
 
     /**
@@ -70,15 +81,15 @@ class PostController extends Controller
 
         if($request->has('save')) {
             $post->active = 0;
-            $message = 'Post saved successfully';
+            $message = 'Posten ble lagret!';
         } else {
             $post->active = 1;
-            $message = 'Post published successfully';
+            $message = 'Posten ble publisert!';
         }
 
         $post->save();
 
-        return redirect('edit/' . $post->slug)->withMessage($message);
+        return redirect('edit/' . $post->slug)->with(array('alert-message' => $message, 'alert-type' => 'alert alert-success'));
     }
 
     /**
@@ -99,6 +110,7 @@ class PostController extends Controller
         $comments = $post->comments;
 
         if(Auth::check()) {
+
             $username = Auth::user()->name;
 
             return view('posts.show', ['username' => $username])->withPost($post)->withComments($comments);
@@ -136,40 +148,38 @@ class PostController extends Controller
     {
         $post_id = $request->input('post_id');
         $post = Posts::find($post_id);
-        if($post && ($post->author_id == $request->user()->id || $request->user()->is_admin()))
-        {
+        if($post && ($post->author_id == $request->user()->id || $request->user()->is_admin())) {
             $title = $request->input('title');
             $slug = str_slug($title);
             $duplicate = Posts::where('slug',$slug)->first();
-            if($duplicate)
-            {
-                if($duplicate->id != $post_id)
-                {
+            if($duplicate) {
+                if($duplicate->id != $post_id) {
                     return redirect('edit/'.$post->slug)->withErrors('Title already exists.')->withInput();
-                }
-                else
-                {
+                } else {
                     $post->slug = $slug;
                 }
             }
+
             $post->title = $title;
             $post->body = $request->input('body');
-            if($request->has('save'))
-            {
+            if($request->has('save')) {
                 $post->active = 0;
-                $message = 'Post saved successfully';
+                $message = 'Posten ble lagret!';
+                $message_type = 'alert alert-success';
+                $landing = 'edit/'.$post->slug;
+            } else {
+                $post->active = 1;
+                $message = 'Posten ble oppdatert!';
+                $message_type = 'alert alert-success';
+                # $landing = $post->slug;
                 $landing = 'edit/'.$post->slug;
             }
-            else {
-                $post->active = 1;
-                $message = 'Post updated successfully';
-                $landing = $post->slug;
-            }
             $post->save();
-            return redirect($landing)->withMessage($message);
-        }
-        else
-        {
+
+            return Redirect::to($landing)->with(array('alert-message' => $message, 'alert-type' => $message_type));
+            # return redirect($landing)->withMessage($message);
+
+        } else {
             return redirect('/')->withErrors('you have not sufficient permissions');
         }
     }
@@ -183,16 +193,30 @@ class PostController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+
         $post = Posts::find($id);
-        if($post && ($post->author_id == $request->user()->id || $request->user()->is_admin()))
-        {
-            $post->delete();
-            $data['message'] = 'Post deleted Successfully';
+
+        if($post && ($post->author_id == Auth::user()->id || $request->user()->is_admin())) {
+
+            try {
+
+                $post->delete();
+                $data = array('alert-type' => 'alert alert-success', 'alert-message' => 'Posten ble slettet!');
+
+            } catch(\Exception $e) {
+
+
+
+            }
+
+        } else {
+
+            $data = array('alert-type' => 'alert alert-danger', 'alert-message' => 'Du har ikke tilgang til å slette denne posten!');
+
         }
-        else
-        {
-            $data['errors'] = 'Invalid Operation. You have not sufficient permissions';
-        }
-        return redirect('/')->with($data);
+
+        return Redirect::to('/mine-poster')->with($data);
+
     }
+
 }

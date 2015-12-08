@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Auth;
 use App\Protocols;
+use Redirect;
 
 class ProtocolsController extends Controller
 {
@@ -96,34 +96,34 @@ class ProtocolsController extends Controller
 
                         } catch(\Exception $e) {
 
-                            return redirect('mine-dokumenter')->with('message', 'Noe gikk feil under sletting av referatet ' . $protocol->filename);
+                            return Redirect::to('mine-dokumenter')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Noe gikk feil ved sletting av referatet!'));
 
                         }
 
-                        return redirect('mine-dokumenter')->with('message', $protocol->title . ' (' . $protocol->filename . ') ble slettet');
+                        return Redirect::to('mine-dokumenter')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Referatet ble slettet!'));
 
                     } else {
 
-                        return redirect('mine-dokumenter')->with('message', 'Det referatet eksisterer ikke! Prøv på nytt!');
+                        return Redirect::to('mine-dokumenter')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Det referatet eksisterer ikke! Prøv på nytt!'));
 
                     }
 
                 } else {
 
-                    return redirect('mine-dokumenter')->with('message', 'Noe gikk feil under sletting av referatet ' . $protocol->filename);
+                    return Redirect::to('mine-dokumenter')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Noe gikk feil ved sletting av referatet!'));
 
                 }
 
 
             } else {
 
-                return redirect('/mine-dokumenter', ['username' => $user->name])->withErrors(['Du kan ikke slette andre brukeres referater!']);
+                return Redirect::to('mine-dokumenter')->with(array('username' => $user->name, 'alert-type' => 'alert alert-danger', 'alert-message' => 'Du kan ikke slette andre brukeres referater!'));
 
             }
 
         } else {
 
-            return redirect('/')->withErrors(['You have to login first']);
+            return Redirect::to('/')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Du må loge inn først!'));
 
         }
 

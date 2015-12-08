@@ -39,8 +39,8 @@ class UploadsController extends Controller
 
                         Request::file('file')->move(public_path('uploads/skriv/'), Request::file('file')->getClientOriginalName());
                         $document->save();
-                        \Session::flash('message', 'Dokumentet ble lagt til!');
-                        return redirect()->route('last-opp', ['username' => Auth::user()->name]);
+
+                        return Redirect::to('last-opp')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Dokumentet ble lastet opp!'));
 
                     } catch(QueryException $e) {
 
@@ -50,7 +50,7 @@ class UploadsController extends Controller
 
                 } else {
 
-                    return redirect('last-opp')->with('message', 'Skrivet (' . $document->filename . ') eksisterer allerede! Prøv på nytt!');
+                    return Redirect::to('last-opp')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Skrivet (' . $document->filename . ') eksisterer allerede! Prøv på nytt!'));
 
                 }
 
@@ -71,8 +71,8 @@ class UploadsController extends Controller
 
                         Request::file('file')->move(public_path('uploads/referater/'), Request::file('file')->getClientOriginalName());
                         $protocol->save();
-                        \Session::flash('message', 'Referatet ble lagt til!');
-                        return redirect()->route('last-opp', ['username' => Auth::user()->name]);
+
+                        return Redirect::to('last-opp')->with(array('username' => Auth::user()->name, 'alert-type' => 'alert alert-success', 'alert-message' => 'Referatet ble lagt til!'));
 
                     } catch(QueryException $e) {
 
@@ -82,7 +82,7 @@ class UploadsController extends Controller
 
                 } else {
 
-                    return redirect('last-opp')->with('message', 'Referatet (' . $protocol->filename . ') eksisterer allerede! Prøv på nytt!');
+                    return Redirect::to('last-opp')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Referatet eksisteter allerede! Prøv på nytt!'));
 
                 }
 
@@ -103,8 +103,8 @@ class UploadsController extends Controller
 
                         Request::file('file')->move(public_path('uploads/referater/'), Request::file('file')->getClientOriginalName());
                         $protocol->save();
-                        \Session::flash('message', 'Referatet ble lagt til!');
-                        return redirect()->route('last-opp', ['username' => Auth::user()->name]);
+
+                        return Redirect::to('last-opp')->with(array('username' => Auth::user()->name, 'alert-type' => 'alert alert-success', 'alert-message' => 'Referatet ble lagt til!'));
 
                     } catch(QueryException $e) {
 
@@ -114,7 +114,7 @@ class UploadsController extends Controller
 
                 } else {
 
-                    return redirect('last-opp')->with('message', 'Referatet (' . $protocol->filename . ') eksisterer allerede! Prøv på nytt');
+                    return Redirect::to('last-opp')->with(array('alert-message' => 'Referatet eksisterer allerede!', 'alert-type' => 'alert alert-danger'));
 
                 }
 
@@ -124,7 +124,7 @@ class UploadsController extends Controller
 
         } else {
 
-            return redirect()->route('last-opp')->with('message', 'Kun PDF-dokumenter tillatt for tiden! Prøv på nytt.');
+            return Redirect::to('last-opp')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Kun PDF-dokumenter er tillatt!'));
 
         }
 

@@ -8,12 +8,6 @@
                     <div class="panel-heading">Endre passord</div>
                     <div class="panel-body">
 
-                        @if(\Session::has('message'))
-                            <div class="{!! \Session::get('type') !!}">
-                                <p>{!! \Session::get('message') !!}</p>
-                            </div>
-                        @endif
-
                         {!! Form::open(array('url' => '/endre-passord', 'method' => 'post', 'class' => 'form-horizontal', 'role' => 'form')) !!}
 
                         <div class="form-group">

@@ -2,7 +2,7 @@
 @section('body-id', 'vedtekter')
 @section('content')
     <section class="col-lg-12">
-        <h2>Våre vedtekter</h2>
+        <h2>Vedtekter</h2>
         <div class="vedtekt">
             <h3>§1 Formål:</h3>
             <p>Austegardstoppen velforening er en velforening for de husstander som hører naturlig til 10/192 i Fjell kommune.</p>

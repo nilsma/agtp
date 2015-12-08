@@ -180,6 +180,15 @@ div.document h4 span {
     font-size: 14px;
 }
 
+div.user p {
+    font-size: 18px;
+    font-weight: normal;
+}
+
+div.user p span{
+    font-size: 14px;
+}
+
 footer {
     background-color: lightgray;
     margin-top: 20px;

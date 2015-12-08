@@ -7,6 +7,7 @@ use App\Protocols;
 use Auth;
 use DB;
 use Request;
+use Redirect;
 
 class DocumentsController extends Controller
 {
@@ -38,6 +39,27 @@ class DocumentsController extends Controller
 
     }
 
+    public function all_documents() {
+
+        if(!Auth::check() || Auth::user()->role != 'admin') {
+
+            return Redirect::to('/dashboard')->with(array('alert-message' => 'Du må være administrator!', 'alert-type' => 'alert alert-danger'));
+
+        }
+
+        $godkjente = Protocols::where(['is_approved' => 1])->orderBy('created_at', 'desc')->get();
+        $til_godkjenning = Protocols::where(['is_approved' => 0])->orderBy('created_at', 'desc')->get();
+        $documents = Documents::all();
+
+        return view('documents.show-all', array(
+            'username' => Auth::user()->name,
+            'documents' => $documents,
+            'godkjente' => $godkjente,
+            'til_godkjenning' => $til_godkjenning
+        ));
+
+    }
+
     public function my_documents() {
 
         if(!Auth::check()) {
@@ -50,7 +72,7 @@ class DocumentsController extends Controller
         $til_godkjenning = Protocols::where(['owner_id' => Auth::user()->id, 'is_approved' => false])->orderBy('created_at', 'desc')->get();
         $godkjente = Protocols::where(['owner_id' => Auth::user()->id, 'is_approved' => true])->orderBy('created_at', 'desc')->get();
 
-        return view('documents.show-all', [
+        return view('documents.show-mine', [
             'username' => $username, 'documents' => $documents, 'til_godkjenning' => $til_godkjenning, 'godkjente' => $godkjente
         ]);
 
@@ -89,11 +111,11 @@ class DocumentsController extends Controller
 
                         } catch(\Exception $e) {
 
-                            return redirect('mine-dokumenter')->with('message', 'Noe gikk feil under sletting av skrivet ' . $document->filename);
+                            return Redirect::to('mine-dokumenter')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Noe gikk feil under sletting av skrivet!'));
 
                         }
 
-                        return redirect('mine-dokumenter')->with('message', $document->title . ' (' . $document->filename . ') ble slettet');
+                        return Redirect::to('mine-dokumenter')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Dokumentet ble slettet!'));
 
                     } else {
 

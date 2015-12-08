@@ -6,7 +6,7 @@
     @if($post)
         <div>
             @if(!Auth::guest() && ($post->author_id == Auth::user()->id || Auth::user()->is_admin()))
-                <button class="btn" style="float: right"><a href="{{ url('edit/'.$post->slug)}}">Edit Post</a></button>
+                <a class="btn btn-primary" href="{{ url('edit/'.$post->slug)}}">Edit Post</a>
             @else
                 Page does not exist
             @endif

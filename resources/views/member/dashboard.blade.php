@@ -18,6 +18,9 @@
                     <nav id="posts">
                         <ul>
                             <li><a href="/mine-poster">Mine poster</a></li>
+                            @if(Auth::user()->role == 'admin')
+                                <li><a href="/alle-poster">Alle poster</a></li>
+                            @endif
                             <li><a href="/ny-post">Lag ny post</a></li>
                         </ul>
                     </nav>
@@ -29,6 +32,9 @@
                     <nav id="documents">
                         <ul>
                             <li><a href="/mine-dokumenter">Mine dokumenter</a></li>
+                            @if(Auth::user()->role == 'admin')
+                                <li><a href="alle-dokumenter">Alle dokumenter</a></li>
+                            @endif
                             <li><a href="/last-opp">Last opp dokument</a></li>
                         </ul>
                     </nav>
