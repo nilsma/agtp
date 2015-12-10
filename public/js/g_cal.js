@@ -38,7 +38,7 @@
 		    var location = item.location;
 		    var eventDate = formatDate(eventdate, defaults.dateFormat.trim());
 		    s ='<div class="eventtitle">'+ summary +'</div>';
-		    s +='<div class="eventdate"> When: '+ eventDate +'</div>';
+		    s +='<div class="eventdate">'+ eventDate +'</div>';
 		    if(location) {
 			s +='<div class="location">Where: '+ location +'</div>';
 		    }
@@ -57,20 +57,20 @@
 	    var fd, arrDate, am, time;
 	    var calendar = {
 		months: {
-		    full: ['', 'January', 'February', 'March', 'April', 'May',
-			   'June', 'July', 'August', 'September', 'October',
-			   'November', 'December'
+		    full: ['', 'Januar', 'Februar', 'Mars', 'April', 'Mai',
+			   'Juni', 'Juli', 'August', 'September', 'Oktober',
+			   'November', 'Desember'
 			  ],
-		    short: ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
-			    'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+		    short: ['', 'Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul',
+			    'Aug', 'Sep', 'Okt', 'Nov', 'Des'
 			   ]
 		},
 		days: {
-		    full: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
-			   'Friday', 'Saturday', 'Sunday'
+		    full: ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag',
+			   'Fredag', 'Lørdag', 'Søndag'
 			  ],
-		    short: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat',
-			    'Sun'
+		    short: ['Søn', 'Man', 'Tir', 'Ons', 'Tors', 'Fre', 'Lør',
+			    'Søn'
 			   ]
 		}
 	    };

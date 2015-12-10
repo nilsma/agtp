@@ -41,7 +41,8 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                {!! Form::submit('Registrer', array('class' => 'btn btn-primary')) !!}
+                                {!! Form::submit('Registrer', array('class' => 'btn btn-success')) !!}
+                                <a href="{{ URL::previous() }}" class="btn btn-primary">Tilbake</a>
                             </div>
                         </div>
 

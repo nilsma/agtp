@@ -47,7 +47,7 @@
                             <div class="form-group form-nav">
                                 <div class="col-md-6 col-md-offset-4">
                                     {!! Form::submit('Lagre bruker', array('class' => 'btn btn-success')) !!}
-                                    <a class="btn btn-danger" href="/admin/users">Avbryt</a>
+                                    <a class="btn btn-danger" href="{{ URL::previous() }}">Avbryt</a>
                                 </div>
                             </div>
 

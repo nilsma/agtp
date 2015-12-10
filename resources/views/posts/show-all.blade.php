@@ -6,7 +6,11 @@
                 <div class="post">
                     <div class="post-header">
                         <div>
-                            <h3>{{ $post->title }}</h3>
+                            @if(!$post->active == 1)
+                                <h3 class="post-title">{{ $post->title }} <span>(kladd)</span></h3>
+                            @else
+                                <h3>{{ $post->title }}</h3>
+                            @endif
                             <div>
                                 <a class="btn btn-danger" href="{{ url('delete/' . $post->id) }}">Slett</a>
                                 <a class="btn btn-primary" href="{{ url('edit/' . $post->slug) }}">Endre</a>

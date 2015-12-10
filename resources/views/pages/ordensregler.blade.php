@@ -10,7 +10,7 @@
 
     <div class="ordensregel">
         <h3>§2 Generell ro:</h3>
-        <p>Det skal i alminnelighet være ro mellom kl. 23:00 og kl. 07:00. I tillegg henstilles det fornuftig bruk av musikkanlegg døgnet rundt.</p>
+        <p>Det skal i alminnelighet være ro mellom kl. 23:00 og kl. 07:00. I tillegg henstilles det til fornuftig bruk av musikkanlegg døgnet rundt.</p>
     </div>
 
     <div class="ordensregel">

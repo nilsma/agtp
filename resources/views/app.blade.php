@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 @section('title', 'Austegardstoppen')
 @include('partials/head')
-<body id="@yield('body-id')">
+<body id="@yield('body-id')" class="site">
 <div id="outer-container" class="container">
     @include('partials/header')
     <div id="main-container" class="row">

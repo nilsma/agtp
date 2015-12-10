@@ -8,6 +8,7 @@ use App\Http\Requests\PostFormRequest;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use App\Comments;
 
 class PostController extends Controller
 {
@@ -44,7 +45,7 @@ class PostController extends Controller
 
         }
 
-        $posts = Posts::where('author_id',$request->user()->id)->orderBy('created_at','desc')->paginate(5);
+        $posts = Posts::where('author_id', $request->user()->id)->orderBy('created_at','desc')->paginate(5);
 
         return view('posts.show-all', ['username' => $request->user()->name])->withPosts($posts);
 
@@ -101,19 +102,17 @@ class PostController extends Controller
     public function show($slug)
     {
 
-        $post = Posts::where('slug',$slug)->first();
+        $post = Posts::where('slug', $slug)->first();
 
         if(!$post) {
             return redirect('/')->withErrors('requested page not found');
         }
 
-        $comments = $post->comments;
+        $comments = Comments::where('on_post', '=', $post->id)->orderBy('created_at', 'desc')->get();
 
         if(Auth::check()) {
 
-            $username = Auth::user()->name;
-
-            return view('posts.show', ['username' => $username])->withPost($post)->withComments($comments);
+            return view('posts.show')->with(array('username' => Auth::user()->name, 'post' => $post, 'comments' => $comments));
 
         } else {
 

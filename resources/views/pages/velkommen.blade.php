@@ -11,19 +11,21 @@
                 <div class="post">
                     <div class="post-header">
                         <div>
-                            <h3><a href="{{ url('/'.$post->slug) }}">{{ $post->title }}</a></h3>
+                            <h3><a href="{{ url('/' . $post->slug) }}">{{ $post->title }}</a></h3>
                             <div>
-                            @if(!Auth::guest() && ($post->author_id == Auth::user()->id || Auth::user()->is_admin()))
+                            @if(Auth::check() && ($post->author_id == Auth::user()->id || Auth::user()->role == 'admin'))
                                 @if($post->active == '1')
-                                    <a class="btn btn-primary" href="{{ url('edit/' . $post->slug) }}">Edit post</a>
+                                <a class="" href="{{ url('edit/' . $post->slug) }}">Endre post</a>
                                 @else
-                                    <a class="btn btn-primary" href="{{ url('edit/' . $post->slug) }}">Edit draft</a>
+                                    <a class="btn btn-primary" href="{{ url('edit/' . $post->slug) }}">Endre kladd</a>
                                 @endif
                             @endif
                             </div>
                             </div>
                         <div>
-                            <p>{{ $post->created_at->format('M d, Y \a\t h:i a') }}, by {{ $post->author->name }}</p>
+                            <p>{{ $post->created_at->format('M d, Y \a\t h:i a') }}, av {{ $post->author->name }}
+                                - <a href="{{ url('/' . $post->slug) }}">kommentarer ({{ count($post->comments) }})</a>
+                            </p>
                         </div>
                     </div>
                     <article class="post-content">
