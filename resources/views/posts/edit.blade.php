@@ -31,9 +31,9 @@
             @else
                 <input type="submit" name='publish' class="btn btn-success" value = "Publiser"/>
             @endif
-            <input type="submit" name='save' class="btn btn-default" value = "Lagre" />
+            <input type="submit" name='save' class="btn btn-default" value = "Lagre kladd" />
             <a href="{{  url('delete/'.$post->id.'?_token='.csrf_token()) }}" class="btn btn-danger">Slett</a>
-            <a class="btn btn-primary" href="/dashboard">Tilbake</a>
+            <a class="btn btn-primary" href="{{ URL::previous() }}">Tilbake</a>
         </form>
     </div>
 @endsection

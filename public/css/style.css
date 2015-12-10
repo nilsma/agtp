@@ -157,6 +157,10 @@ div.post-header div:first-child div a:last-child {
     margin-right: 0;
 }
 
+h3.post-title span {
+    font-size: 16px;
+}
+
 div.referat,
 div.document {
     margin-bottom: 30px;

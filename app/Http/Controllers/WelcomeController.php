@@ -11,6 +11,7 @@ class WelcomeController extends Controller
     public function index() {
 
         $posts = Posts::where('active',1)->orderBy('created_at','desc')->paginate(5);
+
         $title = 'Latest Posts';
 
         if(Auth::check()) {
