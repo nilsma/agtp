@@ -214,6 +214,7 @@ div#footer div p#email {
     font-size: 18px;
 }
 
-div.eventdate {
+div.eventdate,
+div.location {
     font-style: italic;
 }
