@@ -4,7 +4,7 @@
 <body id="@yield('body-id')" class="site">
 <div id="outer-container" class="container">
     @include('partials/header')
-    <div id="main-container" class="row">
+    <div id="main-container">
 
         <div id="error-reporting" class="col-lg-12">
             @if(\Session::has('alert-message'))

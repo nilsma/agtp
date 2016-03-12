@@ -1,7 +1,7 @@
 @extends('app')
 @section('body-id', 'velkommen')
 @section('content')
-    <div id="posts" class="col-lg-7">
+    <div id="posts" class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
         @if ( !$posts->count() )
             <div id="post-main">
                 <p>Ingen poster foreløpig!</p>
@@ -41,9 +41,11 @@
             {!! $posts->render() !!}
         @endif
     </div>
-    <div id="side-content" class="col-lg-5 row">
-        <h2>Hva skjer</h2>
-        <ul id="eventlist" class="col-lg-12">
-        </ul>
-    </div>
+    <div id="side-content" class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+        <div class="inner-side">
+            <h3>Hva skjer</h3>
+            <ul id="eventlist" class="col-lg-12">
+            </ul>
+        </div>
+    </div> <!-- end #side-content -->
 @endsection

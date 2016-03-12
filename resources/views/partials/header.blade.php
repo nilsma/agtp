@@ -1,7 +1,7 @@
 <header class="row">
     <div class="col-lg-12">
         @if(!Auth::check())
-            <div id="login-register" class="col-lg-12">
+            <div id="login-register">
                 <ul>
                     <li><a href="/logg-inn">Logg inn</a></li>
                     <li><a href="/registrer">Registrer</a></li>
@@ -21,13 +21,13 @@
             </div>
         @endif
         <div id="brand">
-            <div class="col-lg-4">
+            <div>
                 <h1><a href="/">Austegardstoppen</a></h1>
             </div>
-            <div class="col-lg-8">
+            <div>
                 @include('partials/navigation')
             </div>
-        </div>
+        </div> <!-- end #brand -->
     </div>
     <img alt="header scenic" src="/images/header_1024.png"/>
 </header>

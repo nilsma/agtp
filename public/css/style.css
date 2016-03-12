@@ -8,20 +8,33 @@ body {
 div#outer-container {
     min-height: 100%;
     position:relative;
-    padding-bottom:130px;
+    padding-bottom: 100px;
 }
 
 div#footer {
-    height: 116px;
+    background-color: pink;
+    height: 96px;
     width:100%;
     position:absolute;
     bottom:0;
     left:0;
 }
 
+div#footer div:nth-child(1),
+div#footer div:nth-child(2),
+div#footer div:nth-child(3) {
+    padding: 10px 0 10px 0;
+}
+
+div#footer div:nth-child(4) {
+    padding-bottom: 10px;
+}
+
 body {
     background-image: url("../images/concrete_seamless.png");
     background-repeat: repeat;
+    color: #2b3b43;
+    font-size: 16px;
 }
 
 header {
@@ -36,6 +49,11 @@ header div {
 div#brand {
     display: flex;
     flex-direction: row;
+}
+
+div#brand div:nth-child(2) {
+    display: block;
+    width: 100%;
 }
 
 section#admin-profile {
@@ -77,9 +95,16 @@ div#member-nav ul li a {
     padding: 5px;
 }
 
-nav#main ul {
+nav#main div:first-child {
+    display: block;
+    float: right;
+    padding-top: 5px;
+}
+
+nav#main div ul {
     list-style: none;
-    padding-top: 15px;
+    margin-top: 15px;
+    display: block;
     float: right;
 }
 
@@ -135,13 +160,35 @@ article.post-content {
     //padding-top: 10px;
 }
 
-div#side-content h2 {
+div#side-content {
+    padding-right: 0;
+}
+
+div#side-content h3,
+div#side-content div.eventtitle {
+    color: #434343;
+}
+
+div#side-content div.inner-side {
+    border: solid lightgrey 1px;
+    border-radius: 0px;
+    float: left;
+    padding: 0 10px 10px 10px;
+    background-color: rgb(158, 158, 158);
+    background-color: rgba(185, 185, 185, 0.2);
+}
+
+div#side-content h3 {
     text-align: center;
     text-decoration: underline;
 }
 
 ul#eventlist {
     text-align: center;
+}
+
+ul#eventlist li {
+    margin: 10px 0px;
 }
 
 div.post {
@@ -226,7 +273,7 @@ div#footer div {
     background-color: #2e3436;
     color: #9E9E9E;
     text-align: center;
-    padding: 20px 0 10px 0;
+    //padding: 20px 0 10px 0;
 }
 
 div#footer div p#email {
@@ -243,5 +290,16 @@ div.comments-container {
 }
 
 div.panel-heading {
-    background-color: #A8C2D2;
+    background-color: #A8C2D2 !important;
+}
+
+.btn,
+.panel,
+.panel-default,
+.panel-heading {
+    border-radius: 0px;
+}
+
+li.active_nav {
+    border-bottom: 1px #337ab7 dashed;
 }

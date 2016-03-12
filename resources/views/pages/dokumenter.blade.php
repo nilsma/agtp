@@ -13,7 +13,7 @@
                         @endforeach
                     </ul>
                 @else
-                    <p>Der er ingen referater til gokjenning for tiden.</p>
+                    <p>Der er ingen referater til godkjenning for tiden.</p>
                 @endif
             </section>
             <section class="godkjente">
