@@ -16,7 +16,7 @@
                 </div>
             </div> <!-- end .post-header -->
             {!! $post->body !!}
-            <div>
+            <div class="comments-container">
                 @if(Auth::guest())
                     <div class="container-fluid">
                         <div class="row">
@@ -108,7 +108,7 @@
                     </div> <!-- end .container-fluid -->
 
                 @endif
-            </div>
+            </div> <!-- end .comments-container -->
         </div> <!-- end .post -->
     </div> <!-- end #posts -->
 @endsection

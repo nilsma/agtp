@@ -1,3 +1,24 @@
+html,
+body {
+    margin:0;
+    padding:0;
+    height:100%;
+}
+
+div#outer-container {
+    min-height: 100%;
+    position:relative;
+    padding-bottom:130px;
+}
+
+div#footer {
+    height: 116px;
+    width:100%;
+    position:absolute;
+    bottom:0;
+    left:0;
+}
+
 body {
     background-image: url("../images/concrete_seamless.png");
     background-repeat: repeat;
@@ -106,12 +127,12 @@ div#main-container {
 
 div.post-main {
     border-bottom: 4px double lightgrey;
-    padding: 10px;
-    margin-bottom: 20px;
+    //padding: 10px;
+    //margin-bottom: 20px;
 }
 
 article.post-content {
-    padding-top: 10px;
+    //padding-top: 10px;
 }
 
 div#side-content h2 {
@@ -199,15 +220,13 @@ div.user p span.username {
 
 div#footer div {
     font-size: 16px;
+    //font-family: "Courier New", Courier, monospace;
+    //font-family: "Georgia", Times, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #2e3436;
     color: #9E9E9E;
     text-align: center;
     padding: 20px 0 10px 0;
-    margin-top: 40px;
-}
-
-div#footer div p#copyright {
-    margin: 20px 0 10px 0;
 }
 
 div#footer div p#email {
@@ -217,4 +236,12 @@ div#footer div p#email {
 div.eventdate,
 div.location {
     font-style: italic;
+}
+
+div.comments-container {
+    margin-top: 20px;
+}
+
+div.panel-heading {
+    background-color: #A8C2D2;
 }

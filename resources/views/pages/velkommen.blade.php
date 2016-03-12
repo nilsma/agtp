@@ -23,7 +23,12 @@
                             </div>
                             </div>
                         <div>
+                            <!--
                             <p>{{ $post->created_at->format('M d, Y \a\t h:i a') }}, av {{ $post->author->name }}
+                                - <a href="{{ url('/' . $post->slug) }}">kommentarer ({{ count($post->comments) }})</a>
+                            </p>
+                            -->
+                            <p>{{ $post->created_at->format('d\. M, Y \k\l\. H:i') }}, av {{ $post->author->name }}
                                 - <a href="{{ url('/' . $post->slug) }}">kommentarer ({{ count($post->comments) }})</a>
                             </p>
                         </div>

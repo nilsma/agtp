@@ -20,11 +20,12 @@
                     @endforeach
                 </div>
             @endif
-        </div>
+        </div> <!-- end #error-reporting -->
 
         @yield('content')
-    </div>
-    @include('partials/footer')
-</div>
+        @include('partials/footer')
+    </div> <!-- end #main-container -->
+
+</div> <!-- end #outer-container -->
 </body>
 </html>

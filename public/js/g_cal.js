@@ -139,7 +139,7 @@
 					break;
 				default:
 					fd = calendar.days.full[d.getDay()] + ' ' + dayNum + '. ' + calendar.months.full[
-							month] + ' ' + ', ' + year + ', kl: ' + time;
+							month] + ' ' + ', ' + year + ', kl. ' + time;
 			}
 
 			return fd;
