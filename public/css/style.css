@@ -74,25 +74,35 @@ div#login-register {
 }
 
 div#member-nav {
-    display: flex;
-    align-items: flex-end;
-    margin-top: -10px;
+//    font-size: 12px;
+//    display: flex;
+//    align-items: flex-end;
 }
 
 div#member-nav ul {
+    display: block;
+    float: right;
     list-style: none;
-    display: flex;
-    flex-direction: column;
-    padding: 0 10px 10px 10px;
-    border: 1px solid black;
+    font-size: 14px;
+//    display: flex;
+//    flex-direction: column;
+//    padding: 0 10px 10px 10px;
+//    border: 1px solid black;
 }
 
 div#member-nav ul li {
-    margin-top: 10px;
+    float: left;
+    margin-right: 10px;
+//    margin-top: 10px;
+}
+
+div#member-nav ul li:last-child {
+    margin-right: 0;
 }
 
 div#member-nav ul li a {
-    padding: 5px;
+//    color: #1a385a;
+//    padding: 5px;
 }
 
 nav#main div:first-child {
@@ -135,6 +145,17 @@ div#login-register ul li {
 
 div#login-register ul li:last-child {
     margin-right: 0;
+}
+
+div#authed {
+    padding-bottom: 0 !important;
+    margin-bottom: -10px;
+}
+
+div#authed,
+div#member-nav,
+div#member-nav ul li a {
+    font-size: 14px;
 }
 
 div#authed,
@@ -301,5 +322,6 @@ div.panel-heading {
 }
 
 li.active_nav {
-    border-bottom: 1px #337ab7 dashed;
+    text-decoration: underline;
+    //border-bottom: 1px #337ab7 dashed;
 }

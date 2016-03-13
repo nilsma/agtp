@@ -8,13 +8,14 @@
                 </ul>
             </div>
         @else
-            <div id="authed" class="col-lg-12">
+            <div id="authed">
                 <p>Innlogget som: <a href="/dashboard">{{ $username }}</a></p>
             </div>
-            <div id="member-nav" class="col-lg-12">
+            <div id="member-nav">
                 <nav>
                     <ul>
                         <li><a href="/dashboard">Min profil</a></li>
+                        <li>/</li>
                         <li><a href="/logout">Logg ut</a></li>
                     </ul>
                 </nav>
