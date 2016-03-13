@@ -13,15 +13,15 @@
                         <div>
                             <h3><a href="{{ url('/' . $post->slug) }}">{{ $post->title }}</a></h3>
                             <div>
-                            @if(Auth::check() && ($post->author_id == Auth::user()->id || Auth::user()->role == 'admin'))
-                                @if($post->active == '1')
-                                <a class="" href="{{ url('edit/' . $post->slug) }}">Endre post</a>
-                                @else
-                                    <a class="btn btn-primary" href="{{ url('edit/' . $post->slug) }}">Endre kladd</a>
+                                @if(Auth::check() && ($post->author_id == Auth::user()->id || Auth::user()->role == 'admin'))
+                                    @if($post->active == '1')
+                                        <a class="" href="{{ url('edit/' . $post->slug) }}">Endre post</a>
+                                    @else
+                                        <a class="btn btn-primary" href="{{ url('edit/' . $post->slug) }}">Endre kladd</a>
+                                    @endif
                                 @endif
-                            @endif
                             </div>
-                            </div>
+                        </div>
                         <div>
                             <!--
                             <p>{{ $post->created_at->format('M d, Y \a\t h:i a') }}, av {{ $post->author->name }}

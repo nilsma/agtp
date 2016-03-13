@@ -235,8 +235,8 @@ div.post-header div:first-child {
 
 div.post-header div:first-child div {
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
+    align-items: center;
+    padding-top: 12px;
 }
 
 div.post-header div:first-child div a {
