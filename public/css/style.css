@@ -73,59 +73,24 @@ div#login-register {
     align-items: flex-end;
 }
 
-div#member-nav {
-//    font-size: 12px;
-//    display: flex;
-//    align-items: flex-end;
-}
-
 div#member-nav ul {
     display: block;
     float: right;
     list-style: none;
     font-size: 14px;
-//    display: flex;
-//    flex-direction: column;
-//    padding: 0 10px 10px 10px;
-//    border: 1px solid black;
 }
 
 div#member-nav ul li {
     float: left;
     margin-right: 10px;
-//    margin-top: 10px;
 }
 
 div#member-nav ul li:last-child {
     margin-right: 0;
 }
 
-div#member-nav ul li a {
-//    color: #1a385a;
-//    padding: 5px;
-}
-
-nav#main div:first-child {
+nav#main {
     display: block;
-    float: right;
-    padding-top: 5px;
-}
-
-nav#main div ul {
-    list-style: none;
-    margin-top: 15px;
-    display: block;
-    float: right;
-}
-
-nav#main ul li {
-    float: left;
-    margin-right: 15px;
-    font-size: 16px;
-}
-
-nav#main ul li:last-child {
-    margin-right: 0;
 }
 
 header img {
@@ -153,12 +118,6 @@ div#authed {
 }
 
 div#authed,
-div#member-nav,
-div#member-nav ul li a {
-    font-size: 14px;
-}
-
-div#authed,
 div#login-register {
     margin-top: 20px;
 }
@@ -167,18 +126,8 @@ div#authed p {
     float: right;
 }
 
-div#main-container {
-
-}
-
 div.post-main {
     border-bottom: 4px double lightgrey;
-    //padding: 10px;
-    //margin-bottom: 20px;
-}
-
-article.post-content {
-    //padding-top: 10px;
 }
 
 div#side-content {
@@ -192,7 +141,7 @@ div#side-content div.eventtitle {
 
 div#side-content div.inner-side {
     border: solid lightgrey 1px;
-    border-radius: 0px;
+    border-radius: 0;
     float: left;
     padding: 0 10px 10px 10px;
     background-color: rgb(158, 158, 158);
@@ -288,13 +237,10 @@ div.user p span.username {
 
 div#footer div {
     font-size: 16px;
-    //font-family: "Courier New", Courier, monospace;
-    //font-family: "Georgia", Times, sans-serif;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #2e3436;
     color: #9E9E9E;
     text-align: center;
-    //padding: 20px 0 10px 0;
 }
 
 div#footer div p#email {
@@ -318,10 +264,61 @@ div.panel-heading {
 .panel,
 .panel-default,
 .panel-heading {
-    border-radius: 0px;
+    border-radius: 0;
+}
+
+nav#main div:first-child {
+    display: block;
+    float: right;
+    padding-top: 5px;
+}
+
+nav#main div ul {
+    list-style: none;
+    margin-top: 15px;
+    float: right;
+}
+
+nav#main ul li {
+    float: left;
+    margin-right: 15px;
+    font-size: 16px;
+}
+
+nav#main ul li:last-child {
+    margin-right: 0;
 }
 
 li.active_nav {
     text-decoration: underline;
-    //border-bottom: 1px #337ab7 dashed;
+}
+
+.form-control {
+    border-radius: 0 !important;
+}
+
+nav#responsive-nav-authed {
+    display: none;
+}
+
+nav#responsive-nav-unauthed {
+    display: none;
+}
+
+nav#responsive-nav-authed ul,
+nav#responsive-nav-unauthed ul {
+    list-style: none;
+    float: right;
+}
+
+nav#responsive-nav-authed ul li,
+nav#responsive-nav-unauthed ul li {
+    float: left;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+nav#responsive-nav-authed ul li:last-child,
+nav#responsive-nav-unauthed ul li:last-child {
+    margin-right: 0;
 }

@@ -6,6 +6,7 @@
     {!! HTML::style('https://fonts.googleapis.com/css?family=Lato:100') !!}
     {!! HTML::script('js/jquery.min.js') !!}
     {!! HTML::script('js/g_cal.js') !!}
+    {!! HTML::script('js/navigation.js') !!}
 
     <style type="text/css">
         #eventlist { list-style:none; }

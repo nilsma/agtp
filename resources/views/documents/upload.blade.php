@@ -33,7 +33,7 @@
 
                         <div class="form-group form-nav">
                             {!! Form::submit('Last opp', array('class' => 'btn btn-success')) !!}
-                            <a class="btn btn-primary" href="/dashboard">Tilbake</a>
+                            <a class="btn btn-danger" href="/dashboard">Avbryt</a>
                         </div>
 
                         {!! Form::close() !!}

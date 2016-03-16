@@ -11,6 +11,6 @@
         </div>
     @endif
     <div class="col-lg-12">
-        <a class="btn btn-primary" href="/dashboard">Tilbake</a>
+        <a class="btn btn-danger" href="/dashboard">Avbryt</a>
     </div>
 @endsection

@@ -1,6 +1,11 @@
 <nav id="main">
     <div class="hidden-lg hidden-md">
-        <button type="button" class="btn btn-default" aria-label="Hamburger Menu">
+        @if(Auth::check())
+        <button id="member-menu-btn" type="button" class="btn btn-default" aria-label="Authed Menu">
+            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+        </button>
+        @endif
+        <button id="visitor-menu-btn" type="button" class="btn btn-default" aria-label="Navigation Menu">
             <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
         </button>
     </div>
@@ -43,7 +48,6 @@
             @else
                 <li><a href="/om_oss/">Om Oss</a></li>
             @endif
-
         </ul>
     </div>
 </nav>
