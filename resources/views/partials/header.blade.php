@@ -87,7 +87,7 @@
                 @endif
             </nav>
             @endif
-            <nav id="responsive-nav-unauthed">
+            <nav id="responsive-nav-unauthed" class="hidden-md hidden-lg">
                 <ul id="visitor-menu">
                     @if(Request::is('/'))
                         <li class="active_nav"><a href="/">Hjem</a></li>

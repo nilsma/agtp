@@ -131,7 +131,8 @@ div.post-main {
 }
 
 div#side-content {
-    padding-right: 0;
+    //padding-right: 0;
+    margin-bottom: 20px;
 }
 
 div#side-content h3,
@@ -146,6 +147,9 @@ div#side-content div.inner-side {
     padding: 0 10px 10px 10px;
     background-color: rgb(158, 158, 158);
     background-color: rgba(185, 185, 185, 0.2);
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
 }
 
 div#side-content h3 {
@@ -302,7 +306,8 @@ nav#responsive-nav-authed {
 }
 
 nav#responsive-nav-unauthed {
-    display: none;
+    border-top: 1px solid lightgrey;
+    padding-top: 10px;
 }
 
 nav#responsive-nav-authed ul,
@@ -315,10 +320,15 @@ nav#responsive-nav-authed ul li,
 nav#responsive-nav-unauthed ul li {
     float: left;
     margin-right: 10px;
-    font-size: 14px;
 }
 
 nav#responsive-nav-authed ul li:last-child,
 nav#responsive-nav-unauthed ul li:last-child {
     margin-right: 0;
+}
+
+nav#responsive-nav-authed ul li,
+nav#responsive-nav-unauthed ul li,
+div#authed {
+    font-size: 12px;
 }

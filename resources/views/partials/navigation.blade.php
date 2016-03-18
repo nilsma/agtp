@@ -2,12 +2,9 @@
     <div class="hidden-lg hidden-md">
         @if(Auth::check())
         <button id="member-menu-btn" type="button" class="btn btn-default" aria-label="Authed Menu">
-            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-        </button>
-        @endif
-        <button id="visitor-menu-btn" type="button" class="btn btn-default" aria-label="Navigation Menu">
             <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
         </button>
+        @endif
     </div>
     <div class="hidden-sm hidden-xs">
         <ul>
