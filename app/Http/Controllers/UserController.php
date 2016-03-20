@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EmailVerifications;
 use App\Http\Requests;
 use App\User;
 use App\Posts;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Hash;
 use Redirect;
+use Validator;
 
 class UserController extends Controller {
 
@@ -42,6 +44,62 @@ class UserController extends Controller {
 
     }
 
+    private function preface_validation_rules() {
+        return [
+            'name' => 'required|string|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+            'password_confirmation' => 'required|same:password',
+            'token' => 'required|unique:email_verifications'
+        ];
+    }
+
+    /**
+     * user registration preface
+     */
+    public function registration_preface(Request $request) {
+
+        $validation_token = str_random(64);
+
+        $validation_data = array(
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'password_confirmation' => $request->input('password_confirmation'),
+            'token' => $validation_token
+        );
+
+        $validator = Validator::make($validation_data, $this->preface_validation_rules());
+
+        if($validator->fails()) {
+
+            return Redirect::to('registrer')->with('errors', $validator->messages());
+
+        } else {
+
+            if(EmailVerifications::where('email', 'LIKE', $request->input('email'))->firstOrFail()) {
+
+                $email_verification = EmailVerifications::where('email', 'LIKE', $request->input('email'))->firstOrFail();
+
+            } else {
+
+                $email_verification = new EmailVerifications();
+
+            }
+
+            $email_verification->name = $request->input('name');
+            $email_verification->email = $request->input('email');
+            $email_verification->password = bcrypt($request->input('password'));
+            $email_verification->token = $validation_token;
+
+        }
+
+        $email_verification->save();
+
+        echo 'now send mail ...';
+
+    }
+
     /**
      * Display active posts of a particular user
      *
@@ -50,9 +108,9 @@ class UserController extends Controller {
      */
     public function user_posts($id)
     {
-        //
         $posts = Posts::where('author_id',$id)->where('active',1)->orderBy('created_at','desc')->paginate(5);
         $title = User::find($id)->name;
+
         return view('home')->withPosts($posts)->withTitle($title);
     }
 

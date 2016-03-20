@@ -9,7 +9,7 @@
                     <div class="panel-heading">Registrer</div>
                     <div class="panel-body">
 
-                        {!! Form::open(array('url' => '/auth/register', 'method' => 'POST', 'class' => 'form-horizontal', 'role' => 'form')) !!}
+                        {!! Form::open(array('url' => '/registrer', 'method' => 'POST', 'class' => 'form-horizontal', 'role' => 'form')) !!}
 
                         <div class="form-group">
                             {!! Form::label('name', 'Navn', array('class' => 'col-md-4 control-label')) !!}

@@ -32,12 +32,14 @@ Route::get('admin', 'Auth\AuthController@getLogin');
 Route::get('admin/logout', 'Auth\AuthController@getLogout');
 Route::get('/logout', 'Auth\AuthController@getLogout');
 
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
-Route::get('/register', 'Auth\AuthController@getRegister');
-Route::post('/register', ['as' => 'register'], 'Auth\AuthController@postRegister');
+#Route::get('auth/register', 'Auth\AuthController@getRegister');
+#Route::post('auth/register', 'Auth\AuthController@postRegister');
+#Route::get('/register', 'Auth\AuthController@getRegister');
+#Route::post('/register', ['as' => 'register'], 'Auth\AuthController@postRegister');
 Route::get('/registrer', 'Auth\AuthController@getRegister');
-Route::post('/registrer', ['as' => 'registrer', 'uses' => 'Auth\AuthController@postRegister']);
+#Route::post('/registrer', ['as' => 'registrer', 'uses' => 'Auth\AuthController@postRegister']);
+Route::post('/registrer', ['as' => 'registrer', 'uses' => 'UserController@registration_preface']);
+
 
 /* added by blog */
 Route::get('/post','PostController@index');

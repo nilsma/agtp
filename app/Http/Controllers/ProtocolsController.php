@@ -129,41 +129,6 @@ class ProtocolsController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    /*
-    public function destroy($id)
-    {
-
-        if(Auth::check()) {
-
-            $user = Auth::user();
-            $protocol = Protocols::findOrFail($id);
-
-            if($protocol->owner_id == $user->id) {
-
-                $protocol->delete();
-                return redirect('mine-dokumenter')->with('message', 'Referat ' . $protocol->title . ' (' . $protocol->filename . ') ble slettet!');
-
-            } else {
-
-                return redirect('mine-dokumenter')->with('message', 'Du kan kun slette dine egne referater!');
-
-            }
-
-        } else {
-
-            return redirect('/');
-
-        }
-
-    }
-    */
-
     public function toggle($id)
     {
 
