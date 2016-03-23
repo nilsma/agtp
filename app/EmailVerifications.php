@@ -11,6 +11,4 @@ class EmailVerifications extends Model
 
     protected $table = 'email_verifications';
 
-    protected $primaryKey = 'email';
-
 }

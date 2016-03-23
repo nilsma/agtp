@@ -6,11 +6,14 @@ use App\EmailVerifications;
 use App\Http\Requests;
 use App\User;
 use App\Posts;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
 use Redirect;
 use Validator;
+use Illuminate\Support\Facades\Mail;
+use Config;
 
 class UserController extends Controller {
 
@@ -46,10 +49,10 @@ class UserController extends Controller {
 
     private function preface_validation_rules() {
         return [
-            'name' => 'required|string|unique:users',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'password_confirmation' => 'required|same:password',
+            'name' => 'required|max:32|string|unique:users|unique:email_verifications',
+            'email' => 'required|max:64|email|unique:users|unique:email_verifications',
+            'password' => 'required|max:16',
+            'password_confirmation' => 'required|max:16|same:password',
             'token' => 'required|unique:email_verifications'
         ];
     }
@@ -59,14 +62,12 @@ class UserController extends Controller {
      */
     public function registration_preface(Request $request) {
 
-        $validation_token = str_random(64);
-
         $validation_data = array(
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
             'password_confirmation' => $request->input('password_confirmation'),
-            'token' => $validation_token
+            'token' => str_random(64)
         );
 
         $validator = Validator::make($validation_data, $this->preface_validation_rules());
@@ -77,26 +78,31 @@ class UserController extends Controller {
 
         } else {
 
-            if(EmailVerifications::where('email', 'LIKE', $request->input('email'))->firstOrFail()) {
-
-                $email_verification = EmailVerifications::where('email', 'LIKE', $request->input('email'))->firstOrFail();
-
-            } else {
-
-                $email_verification = new EmailVerifications();
-
-            }
-
+            $email_verification = new EmailVerifications();
             $email_verification->name = $request->input('name');
             $email_verification->email = $request->input('email');
             $email_verification->password = bcrypt($request->input('password'));
-            $email_verification->token = $validation_token;
+            $email_verification->token = $validation_data['token'];
+            $email_verification->save();
+
+            $this->sendEmailVerification($email_verification);
+
+            return Redirect::to('/verification')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Takk for at du registrerte deg!'));
 
         }
 
-        $email_verification->save();
+    }
 
-        echo 'now send mail ...';
+    /**
+     * Send an e-mail reminder to the user.
+     *
+     */
+    public function sendEmailVerification(EmailVerifications $ev) {
+
+        Mail::send('email.verification', ['ev' => $ev], function ($message) use ($ev) {
+            $message->from("nilsma231@gmail.com");
+            $message->to("nilsma231@gmail.com")->subject("test subject");
+        });
 
     }
 
