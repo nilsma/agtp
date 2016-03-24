@@ -33,11 +33,13 @@ Route::get('admin/logout', 'Auth\AuthController@getLogout');
 Route::get('/logout', 'Auth\AuthController@getLogout');
 
 Route::get('/registrer', 'Auth\AuthController@getRegister');
-Route::post('/registrer', ['as' => 'registrer', 'uses' => 'UserController@registration_preface']);
+Route::post('/registrer', ['as' => 'registrer', 'uses' => 'UserController@registrationPreface']);
 
 Route::get('/verification', function() {
     return View::make('auth.preface');
 });
+
+Route::get('/verify/{token}', 'UserController@verify_user');
 
 /* added by blog */
 Route::get('/post','PostController@index');

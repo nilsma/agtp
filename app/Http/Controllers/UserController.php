@@ -53,21 +53,21 @@ class UserController extends Controller {
             'email' => 'required|max:64|email|unique:users|unique:email_verifications',
             'password' => 'required|max:16',
             'password_confirmation' => 'required|max:16|same:password',
-            'token' => 'required|unique:email_verifications'
+            'token' => 'required|min:32|unique:email_verifications'
         ];
     }
 
     /**
      * user registration preface
      */
-    public function registration_preface(Request $request) {
+    public function registrationPreface(Request $request) {
 
         $validation_data = array(
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
             'password_confirmation' => $request->input('password_confirmation'),
-            'token' => str_random(64)
+            'token' => str_random(32)
         );
 
         $validator = Validator::make($validation_data, $this->preface_validation_rules());
@@ -78,14 +78,14 @@ class UserController extends Controller {
 
         } else {
 
-            $email_verification = new EmailVerifications();
-            $email_verification->name = $request->input('name');
-            $email_verification->email = $request->input('email');
-            $email_verification->password = bcrypt($request->input('password'));
-            $email_verification->token = $validation_data['token'];
-            $email_verification->save();
+            $ev = new EmailVerifications();
+            $ev->name = $request->input('name');
+            $ev->email = $request->input('email');
+            $ev->password = bcrypt($request->input('password'));
+            $ev->token = $validation_data['token'];
+            $ev->save();
 
-            $this->sendEmailVerification($email_verification);
+            $this->sendEmailVerification($ev);
 
             return Redirect::to('/verification')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Takk for at du registrerte deg!'));
 
@@ -100,9 +100,29 @@ class UserController extends Controller {
     public function sendEmailVerification(EmailVerifications $ev) {
 
         Mail::send('email.verification', ['ev' => $ev], function ($message) use ($ev) {
-            $message->from("nilsma231@gmail.com");
-            $message->to("nilsma231@gmail.com")->subject("test subject");
+            $message->from("nils.martinussen@gmail.com");
+            $message->to($ev->email)->subject("Brukerregistrering - Austegardstoppen");
         });
+
+    }
+
+    public function verify_user($token) {
+
+        $ev = EmailVerifications::where('token', $token)->first();
+
+        $user = new User();
+        $user->id = null;
+        $user->name = $ev->name;
+        $user->email = $ev->email;
+        $user->password = $ev->password;
+        $user->role = 'subscriber';
+        $user->remember_token = null;
+
+        $user->save();
+
+        $ev->delete();
+
+        return Redirect::to('/')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Du er nå registrert og logget inn!'));
 
     }
 

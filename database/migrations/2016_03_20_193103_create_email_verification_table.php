@@ -13,10 +13,11 @@ class CreateEmailVerificationTable extends Migration
     public function up()
     {
         Schema::create('email_verifications', function (Blueprint $table) {
-            $table->string('email')->index();
-            $table->string('token', 64)->index();
-            $table->string('name');
-            $table->string('password', 60);
+            $table->increments('id');
+            $table->string('email')->unique();
+            $table->string('token', 32)->unique();
+            $table->string('name')->unique();
+            $table->string('password', 128);
             $table->timestamps();
         });
     }
