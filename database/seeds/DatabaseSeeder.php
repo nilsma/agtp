@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(DocumentsTableSeeder::class);
         $this->call(ProtocolsTableSeeder::class);
+        $this->call(VerifiedEmailsTableSeeder::class);
 
         Model::reguard();
     }

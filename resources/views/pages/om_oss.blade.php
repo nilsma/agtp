@@ -8,8 +8,8 @@
     <p>Velforeningen ble stiftet 2015 og det sittende styret består av følgende personer og verv:
     <ul>
         <li>Nils Martinussen - styreleder <span>(leder@austegardstoppen.no)</span></li>
-        <li>Kamilla Furnes Hauge - kasserer <span>(kamillafurnes@hotmail.com)</span></li>
-        <li>Olga Wergeland - referent <span>(olgawergeland@gmail.com)</span></li>
+        <li>Arnt Cederholm- kasserer <span>(kasserer@austegardstoppen.no)</span></li>
+        <li>Olga Wergeland - referent <span>(skriver@austegardstoppen.no)</span></li>
     </ul>
     </p>
 </section>

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\EmailVerifications;
 use App\Http\Requests;
+use App\MemberApplications;
 use App\User;
 use App\Posts;
+use App\VerifiedEmails;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Auth;
@@ -47,14 +49,22 @@ class UserController extends Controller {
 
     }
 
-    private function preface_validation_rules() {
+    private function prefaceValidationRules() {
         return [
             'name' => 'required|max:32|string|unique:users|unique:email_verifications',
             'email' => 'required|max:64|email|unique:users|unique:email_verifications',
             'password' => 'required|max:16',
-            'password_confirmation' => 'required|max:16|same:password',
-            'token' => 'required|min:32|unique:email_verifications'
+            'password_confirmation' => 'required|max:16|same:password'
         ];
+    }
+
+    public function alertMemberApplication(MemberApplications $ma) {
+
+        Mail::send('email.member_application', ['ma' => $ma], function ($message) use ($ma) {
+            $message->from("nils.martinussen@gmail.com");
+            $message->to("leder@austegardstoppen.no")->subject("Søknad medlemskap Austegardstoppen.");
+        });
+
     }
 
     /**
@@ -66,11 +76,10 @@ class UserController extends Controller {
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
-            'password_confirmation' => $request->input('password_confirmation'),
-            'token' => str_random(32)
+            'password_confirmation' => $request->input('password_confirmation')
         );
 
-        $validator = Validator::make($validation_data, $this->preface_validation_rules());
+        $validator = Validator::make($validation_data, $this->prefaceValidationRules());
 
         if($validator->fails()) {
 
@@ -78,18 +87,40 @@ class UserController extends Controller {
 
         } else {
 
-            $ev = new EmailVerifications();
-            $ev->name = $request->input('name');
-            $ev->email = $request->input('email');
-            $ev->password = bcrypt($request->input('password'));
-            $ev->token = $validation_data['token'];
-            $ev->save();
+            $ma = new MemberApplications();
+            $ma->name = $request->input('name');
+            $ma->email = $request->input('email');
+            $ma->password = bcrypt($request->input('password'));
+            $ma->save();
 
-            $this->sendEmailVerification($ev);
+            if($ve = VerifiedEmails::where('email', $ma->email)->first()) {
 
-            return Redirect::to('/verification')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Takk for at du registrerte deg!'));
+                $this->emailVerificationPreface($ma);
+                $this->alertMemberApplication($ma);
+                $ma->delete();
+                return Redirect::to('/verification')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Du vil snarlig motta en epost for bekreftelse!'));
+
+            } else {
+
+                $this->alertMemberApplication($ma);
+                return Redirect::to('/verification')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Søknaden din er registrert og vi sender deg en epost for bekreftelse så snart som mulig!'));
+
+            }
 
         }
+
+    }
+
+    public function emailVerificationPreface(MemberApplications $ma) {
+
+        $ev = new EmailVerifications();
+        $ev->name = $ma->name;
+        $ev->email = $ma->email;
+        $ev->password = $ma->password;
+        $ev->token = str_random(32);
+        $ev->save();
+
+        $this->sendEmailVerification($ev);
 
     }
 
@@ -121,6 +152,8 @@ class UserController extends Controller {
         $user->save();
 
         $ev->delete();
+
+        Auth::login($user);
 
         return Redirect::to('/')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Du er nå registrert og logget inn!'));
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MemberApplications;
 use Auth;
 use App\User;
 use Request;
@@ -67,9 +68,10 @@ class AdminController extends Controller
             $column = 'name';
         }
 
+        $member_applications = MemberApplications::all()->sortBy('email');
         $users = User::all()->sortBy($column);
 
-        return view('admin.user_administration', ['username' => Auth::user()->name, 'users' => $users]);
+        return view('admin.user_administration', ['username' => Auth::user()->name, 'member_applications' => $member_applications, 'users' => $users]);
 
     }
 
