@@ -89,6 +89,10 @@ div#member-nav ul li:last-child {
     margin-right: 0;
 }
 
+div#content {
+    padding-top: 20px;
+}
+
 nav#main {
     display: block;
 }
@@ -163,6 +167,14 @@ ul#eventlist {
 
 ul#eventlist li {
     margin: 10px 0px;
+}
+
+div.profile-post {
+    border: 1px solid lightgrey;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+    background-color: rgb(255,255,255);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 div.post {
@@ -331,4 +343,32 @@ nav#responsive-nav-authed ul li,
 nav#responsive-nav-unauthed ul li,
 div#authed {
     font-size: 12px;
+}
+
+table {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid lightgrey;
+}
+
+th, td {
+    padding: 3px;
+}
+
+div.post-header-admin {
+    display: flex;
+    flex-direction: row;
+}
+
+div.post-header-admin {
+    display: flex;
+    justify-content: space-between;
+}
+
+div.post-header-admin div:last-child {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
 }

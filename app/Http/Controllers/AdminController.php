@@ -15,7 +15,7 @@ class AdminController extends Controller
     {
         if(Auth::check()) {
 
-            return view('admin.dashboard', ['username' => Auth::user()->name]);
+            return view('admin.dashboard', array('currentUser' => Auth::user()));
 
         } else {
 
@@ -25,7 +25,7 @@ class AdminController extends Controller
 
     }
 
-    public function edit_user()
+    public function updateUser()
     {
 
         if(Auth::check() && Auth::user()->role == 'admin') {
@@ -53,16 +53,16 @@ class AdminController extends Controller
 
     }
 
-    public function user_edit($id)
+    public function editUser($id)
     {
 
         $user = User::find($id);
 
-        return view('admin.user_edit', ['edit_user' => $user, 'username' => Auth::user()->name]);
+        return view('admin.user_edit', array('edit_user' => $user, 'currentUser' => Auth::user()));
 
     }
 
-    public function user_administration($column = null)
+    public function userAdministration($column = null)
     {
         if($column == null) {
             $column = 'name';
@@ -71,7 +71,7 @@ class AdminController extends Controller
         $member_applications = MemberApplications::all()->sortBy('email');
         $users = User::all()->sortBy($column);
 
-        return view('admin.user_administration', ['username' => Auth::user()->name, 'member_applications' => $member_applications, 'users' => $users]);
+        return view('admin.user_administration', array('currentUser' => Auth::user(), 'member_applications' => $member_applications, 'users' => $users));
 
     }
 

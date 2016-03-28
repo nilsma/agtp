@@ -81,10 +81,10 @@ class ProtocolsController extends Controller
 
         if(Auth::check()) {
 
-            $user = Auth::user();
+            $currentUser = Auth::user();
             $protocol = Protocols::findOrFail($id);
 
-            if ($protocol->owner_id == $user->id) {
+            if ($protocol->owner_id == $currentUser->id) {
 
                 if($protocol->delete()) {
 
@@ -117,7 +117,7 @@ class ProtocolsController extends Controller
 
             } else {
 
-                return Redirect::to('mine-dokumenter')->with(array('username' => $user->name, 'alert-type' => 'alert alert-danger', 'alert-message' => 'Du kan ikke slette andre brukeres referater!'));
+                return Redirect::to('mine-dokumenter')->with(array('currentUser' => $currentUser, 'alert-type' => 'alert alert-danger', 'alert-message' => 'Du kan ikke slette andre brukeres referater!'));
 
             }
 
@@ -134,10 +134,10 @@ class ProtocolsController extends Controller
 
         if(Auth::check()) {
 
-            $user = Auth::user();
+            $currentUser = Auth::user();
             $protocol = Protocols::findOrFail($id);
 
-            if($protocol->owner_id == $user->id) {
+            if($protocol->owner_id == $currentUser->id) {
 
                 if($protocol->is_approved) {
 

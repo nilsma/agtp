@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BlockedEmails;
 use App\EmailVerifications;
 use App\Http\Requests;
 use App\MemberApplications;
@@ -23,12 +24,12 @@ class UserController extends Controller {
 
         if($request->input('new_password') == $request->input('repeat_password')) {
 
-            $user = Auth::user();
+            $currentUser = Auth::user();
 
-            if(Hash::check($request->input('old_password'), $user->password)) {
+            if(Hash::check($request->input('old_password'), $currentUser->password)) {
 
-                $user->password = Hash::make($request->input('new_password'));
-                $user->save();
+                $currentUser->password = Hash::make($request->input('new_password'));
+                $currentUser->save();
 
                 $view_params = ['type' => 'alert alert-success', 'message' => 'Passordet ble oppdatert!'];
 
@@ -51,8 +52,8 @@ class UserController extends Controller {
 
     private function prefaceValidationRules() {
         return [
-            'name' => 'required|max:32|string|unique:users|unique:email_verifications',
-            'email' => 'required|max:64|email|unique:users|unique:email_verifications',
+            'name' => 'required|max:32|string|unique:users|unique:email_verifications|unique:member_applications',
+            'email' => 'required|max:64|email|unique:users|unique:email_verifications|unique:member_applications',
             'password' => 'required|max:16',
             'password_confirmation' => 'required|max:16|same:password'
         ];
@@ -64,6 +65,18 @@ class UserController extends Controller {
             $message->from("nils.martinussen@gmail.com");
             $message->to("leder@austegardstoppen.no")->subject("Søknad medlemskap Austegardstoppen.");
         });
+
+    }
+
+    public function isBlockedEmail($email)
+    {
+        $blocked_email = BlockedEmails::where('email', $email)->first();
+
+        if($blocked_email) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
@@ -86,6 +99,10 @@ class UserController extends Controller {
             return Redirect::to('registrer')->with('errors', $validator->messages());
 
         } else {
+
+            if($this->isBlockedEmail($validation_data['email'])) {
+                return Redirect::to('/registrer')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Epostadressen er svartelistet.'));
+            }
 
             $ma = new MemberApplications();
             $ma->name = $request->input('name');
@@ -121,6 +138,37 @@ class UserController extends Controller {
         $ev->save();
 
         $this->sendEmailVerification($ev);
+
+    }
+
+    public function blockMemberApplication($id)
+    {
+        $ma = MemberApplications::find($id);
+
+        $blocked_email = new BlockedEmails();
+        $blocked_email->email = $ma->email;
+        $blocked_email->save();
+        $ma->delete();
+
+        return Redirect::to('/admin/users')->with(array('alert-type' => 'alert alert-warning', 'alert-message' => 'Søknaden ble blokkert!'));
+    }
+
+    public function ignoreMemberApplication($id)
+    {
+        $ma = MemberApplications::find($id);
+        $ma->delete();
+
+        return Redirect::to('/admin/users')->with(array('alert-type' => 'alert alert-warning', 'alert-message' => 'Søknaden ble slettet!'));
+    }
+
+    public function confirmMemberApplication($id)
+    {
+        $ma = MemberApplications::find($id);
+
+        $this->emailVerificationPreface($ma);
+        $ma->delete();
+
+        return Redirect::to('/admin/users')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Medlemsskapet ble bekreftet!'));
 
     }
 
@@ -228,11 +276,8 @@ class UserController extends Controller {
     public function dashboard() {
 
         if(Auth::check()) {
-            $username = Auth::user()->name;
-            return view('member.dashboard', ['username' => $username]);
+            return view('member.dashboard', array('currentUser' => Auth::user()));
         }
-
-        return view('member.dashboard');
 
     }
 }

@@ -9,39 +9,27 @@
             </div>
         @else
             <div id="authed">
-                <p>Innlogget som: <a href="/dashboard">{{ $username }}</a></p>
+                <p>Innlogget som: <a href="/profil">{{ $currentUser->name }}</a></p>
             </div>
             <div id="member-nav">
                 <nav class="hidden-xs hidden-sm">
-                    @if(Auth::user()->role == 'admin')
-                        <ul>
+                    <ul>
+                        @if(Auth::user()->role == 'admin' || Auth::user()->role == 'author')
+                            <li><a href="/poster">Poster</a></li>
+                            <li>/</li>
                             <li><a href="/ny-post">Lag ny post</a></li>
                             <li>/</li>
-                            <li><a href="/last-opp">Last opp dokument</a></li>
+                        @endif
+
+                        @if(Auth::user()->role == 'admin')
+                            <li><a href="/admin/users">Brukere</a></li>
                             <li>/</li>
-                            <li><a href="/admin/users">Brukerbehandling</a></li>
+                            <li><a href="/dashboard">Oversikt</a></li>
                             <li>/</li>
-                            <li><a href="/dashboard">Dashboard</a></li>
-                            <li>/</li>
-                            <li><a href="/logout">Logg ut</a></li>
-                        </ul>
-                    @elseif(Auth::user()->role == 'author')
-                        <ul>
-                            <li><a href="/ny-post">Lag ny post</a></li>
-                            <li>/</li>
-                            <li><a href="/last-opp">Last opp dokument</a></li>
-                            <li>/</li>
-                            <li><a href="/dashboard">Dashboard</a></li>
-                            <li>/</li>
-                            <li><a href="/logout">Logg ut</a></li>
-                        </ul>
-                    @else
-                        <ul>
-                            <li><a href="/dashboard">Min profil</a></li>
-                            <li>/</li>
-                            <li><a href="/logout">Logg ut</a></li>
-                        </ul>
-                    @endif
+                        @endif
+
+                        <li><a href="/logg-ut">Logg ut</a></li>
+                    </ul>
                 </nav>
             </div>
         @endif
@@ -55,37 +43,37 @@
         </div> <!-- end #brand -->
         <div id="responsive-nav">
             @if(Auth::check())
-            <nav id="responsive-nav-authed">
-                @if(Auth::user()->role == 'admin')
-                    <ul id="member-menu">
-                        <li><a href="/ny-post">Lag ny post</a></li>
-                        <li>/</li>
-                        <li><a href="/last-opp">Last opp dokument</a></li>
-                        <li>/</li>
-                        <li><a href="/admin/users">Brukerbehandling</a></li>
-                        <li>/</li>
-                        <li><a href="/dashboard">Dashboard</a></li>
-                        <li>/</li>
-                        <li><a href="/logout">Logg ut</a></li>
-                    </ul>
-                @elseif(Auth::user()->role == 'author')
-                    <ul id="member-menu">
-                        <li><a href="/ny-post">Lag ny post</a></li>
-                        <li>/</li>
-                        <li><a href="/last-opp">Last opp dokument</a></li>
-                        <li>/</li>
-                        <li><a href="/dashboard">Dashboard</a></li>
-                        <li>/</li>
-                        <li><a href="/logout">Logg ut</a></li>
-                    </ul>
-                @else
-                    <ul id="member-menu">
-                        <li><a href="/dashboard">Min profil</a></li>
-                        <li>/</li>
-                        <li><a href="/logout">Logg ut</a></li>
-                    </ul>
-                @endif
-            </nav>
+                <nav id="responsive-nav-authed">
+                    @if(Auth::user()->role == 'admin')
+                        <ul id="member-menu">
+                            <li><a href="/ny-post">Lag ny post</a></li>
+                            <li>/</li>
+                            <li><a href="/last-opp">Last opp dokument</a></li>
+                            <li>/</li>
+                            <li><a href="/admin/users">Brukerbehandling</a></li>
+                            <li>/</li>
+                            <li><a href="/dashboard">Dashboard</a></li>
+                            <li>/</li>
+                            <li><a href="/logout">Logg ut</a></li>
+                        </ul>
+                    @elseif(Auth::user()->role == 'author')
+                        <ul id="member-menu">
+                            <li><a href="/ny-post">Lag ny post</a></li>
+                            <li>/</li>
+                            <li><a href="/last-opp">Last opp dokument</a></li>
+                            <li>/</li>
+                            <li><a href="/dashboard">Dashboard</a></li>
+                            <li>/</li>
+                            <li><a href="/logout">Logg ut</a></li>
+                        </ul>
+                    @else
+                        <ul id="member-menu">
+                            <li><a href="/dashboard">Min profil</a></li>
+                            <li>/</li>
+                            <li><a href="/logout">Logg ut</a></li>
+                        </ul>
+                    @endif
+                </nav>
             @endif
             <nav id="responsive-nav-unauthed" class="hidden-md hidden-lg">
                 <ul id="visitor-menu">
@@ -113,13 +101,14 @@
 
                     <li>/</li>
 
-                    @if(Request::is('dokumenter'))
-                        <li class="active_nav"><a href="/dokumenter/">Dokumenter</a></li>
-                    @else
-                        <li><a href="/dokumenter/">Dokumenter</a></li>
+                    @if(Auth::check())
+                        @if(Request::is('dokumenter'))
+                            <li class="active_nav"><a href="/dokumenter/">Dokumenter</a></li>
+                        @else
+                            <li><a href="/dokumenter/">Dokumenter</a></li>
+                        @endif
+                        <li>/</li>
                     @endif
-
-                    <li>/</li>
 
                     @if(Request::is('om_oss'))
                         <li class="active_nav"><a href="/om_oss/">Om Oss</a></li>

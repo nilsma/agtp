@@ -13,29 +13,15 @@
                         <div class="post-header">
                             <div>
                                 <h3><a href="{{ url('/' . $post->slug) }}">{{ $post->title }}</a></h3>
-                                <div>
-                                    @if(Auth::check() && ($post->author_id == Auth::user()->id || Auth::user()->role == 'admin'))
-                                        @if($post->active == '1')
-                                            <a class="" href="{{ url('edit/' . $post->slug) }}">Endre post</a>
-                                        @else
-                                            <a class="btn btn-primary" href="{{ url('edit/' . $post->slug) }}">Endre kladd</a>
-                                        @endif
-                                    @endif
-                                </div>
                             </div>
                             <div>
-                                <!--
-                            <p>{{ $post->created_at->format('M d, Y \a\t h:i a') }}, av {{ $post->author->name }}
-                                        - <a href="{{ url('/' . $post->slug) }}">kommentarer ({{ count($post->comments) }})</a>
-                            </p>
-                            -->
                                 <p>{{ $post->created_at->format('d\. M, Y \k\l\. H:i') }}, av {{ $post->author->name }}
                                     - <a href="{{ url('/' . $post->slug) }}">kommentarer ({{ count($post->comments) }})</a>
                                 </p>
                             </div>
                         </div> <!-- .post-header -->
                         <article class="post-content">
-                            {!! str_limit($post->body, $limit = 1000, $end = ' ... <a href='.url("/".$post->slug).'>Read More</a>') !!}
+                            {!! $post->body !!}
                         </article>
                     </div> <!-- .post -->
                 @endforeach

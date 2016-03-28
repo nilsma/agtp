@@ -11,68 +11,58 @@
 |
 */
 
+/* PUBLIC PAGES */
 Route::get('/', 'WelcomeController@Index');
-Route::get('/home', 'AdminController@Index');
 Route::get('/om_oss/', 'AboutController@Index');
-Route::get('/dokumenter/', 'DocumentsController@Index');
 Route::get('/vedtekter/', 'ResolutionsController@Index');
 Route::get('/ordensregler/', 'HouseRulesController@Index');
 
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
-Route::get('/login', 'Auth\AuthController@getLogin');
-Route::post('/login', 'Auth\AuthController@postLogin');
+/* REGISTRATION AND LOGIN */
 Route::get('/logg-inn', 'Auth\AuthController@getLogin');
-Route::post('/logg-inn', 'Auth\AuthController@postLogin');
-Route::get('admin/login', 'Auth\AuthController@getLogin');
-Route::post('admin/login', 'Auth\AuthController@postLogin');
-Route::get('admin', 'Auth\AuthController@getLogin');
-
-Route::get('admin/logout', 'Auth\AuthController@getLogout');
-Route::get('/logout', 'Auth\AuthController@getLogout');
-
+Route::get('/logg-ut', 'Auth\AuthController@getLogout');
 Route::get('/registrer', 'Auth\AuthController@getRegister');
 Route::post('/registrer', ['as' => 'registrer', 'uses' => 'UserController@registrationPreface']);
 
+/* VERIFICATIONS */
+Route::get('/verify/{token}', 'UserController@verify_user');
 Route::get('/verification', function() {
     return View::make('auth.preface');
 });
 
-Route::get('/verify/{token}', 'UserController@verify_user');
-
-/* added by blog */
-Route::get('/post','PostController@index');
-
-//authentication
+/* AUTHENTICATIONS */
 Route::controllers([
     'auth' => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',
 ]);
 
+/* MIDDLEWARE AUTH */
 Route::group(['middleware' => ['auth']], function() {
 
     /* ADMIN */
-    Route::get('/admin/users', function() {
-        return View::make('admin.users')->with('username', Auth::user()->name);
-    });
-    Route::get('/admin/user_edit/{id}', 'AdminController@user_edit');
-    Route::post('/admin/edit_user', 'AdminController@edit_user');
-
-    Route::get('/admin/users', 'AdminController@user_administration');
+    Route::get('/admin/edit_user/{id}', 'AdminController@editUser');
+    Route::post('/admin/edit_user', 'AdminController@updateUser');
+    Route::get('/admin/users', 'AdminController@userAdministration');
+    Route::get('/admin/confirm_member_application/{id}', 'UserController@confirmMemberApplication');
+    Route::get('/admin/ignore_member_application/{id}', 'UserController@ignoreMemberApplication');
+    Route::get('/admin/block_member_application/{id}', 'UserController@blockMemberApplication');
 
     /* DASHBOARD */
     Route::get('/dashboard', 'UserController@dashboard');
+
+    /* USER PROFILE */
     Route::get('/endre-passord', function() {
         return View::make('member.password')->with('username', Auth::user()->name);
     });
     Route::post('/endre-passord', ['as' => 'endre-passord', 'uses' => 'UserController@changePassword']);
 
+    /* MAIL-LISTS */
     Route::get('/epostlister', function() {
         return View::make('member.maillist')->with('username', Auth::user()->name);
     });
 
     /* POSTER / POSTS */
+    Route::get('/poster', 'PostController@landingPage');
+    Route::post('/poster', 'PostController@landingPage');
     Route::get('/mine-poster', 'PostController@my_posts');
     Route::get('/alle-poster', 'PostController@all_posts');
 
@@ -80,14 +70,17 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('ny-post','PostController@store');
 
     Route::get('edit/{slug}','PostController@edit');
-    Route::post('update','PostController@update');
-    Route::get('delete/{id}','PostController@destroy');
+    Route::post('update','PostController@update', function() {
+        return Redirect('/');
+    });
+    Route::get('posts/delete/{id}','PostController@destroy');
 
     Route::get('my-drafts','UserController@user_posts_draft');
     Route::post('comment/add','CommentController@store');
     Route::post('comment/delete/{id}','CommentController@destroy');
 
     /* DOKUMENTER / DOCUMENTS */
+    Route::get('/dokumenter/', 'DocumentsController@Index');
     Route::get('/mine-dokumenter', ['as' => 'mine-dokumenter', 'uses' => 'DocumentsController@my_documents']);
     Route::get('/alle-dokumenter', ['as' => 'alle-dokumenter', 'uses' => 'DocumentsController@all_documents']);
     Route::match(['get', 'post'], '/last-opp', ['as' => 'last-opp', 'uses' => 'DocumentsController@upload']);
@@ -100,7 +93,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/protocols/toggle/{id}', 'ProtocolsController@toggle');
 });
 
-/* BRUKERE / USERS */
-Route::get('user/{id}','UserController@profile')->where('id', '[0-9]+');
-Route::get('user/{id}/posts','UserController@user_posts')->where('id', '[0-9]+');
+/* POSTS */
 Route::get('/{slug}',['as' => 'post', 'uses' => 'PostController@show'])->where('slug', '[A-Za-z0-9-_]+');

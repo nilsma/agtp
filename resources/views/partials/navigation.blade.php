@@ -1,9 +1,9 @@
 <nav id="main">
     <div class="hidden-lg hidden-md">
         @if(Auth::check())
-        <button id="member-menu-btn" type="button" class="btn btn-default" aria-label="Authed Menu">
-            <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-        </button>
+            <button id="member-menu-btn" type="button" class="btn btn-default" aria-label="Authed Menu">
+                <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+            </button>
         @endif
     </div>
     <div class="hidden-sm hidden-xs">
@@ -32,13 +32,14 @@
 
             <li>/</li>
 
-            @if(Request::is('dokumenter'))
-                <li class="active_nav"><a href="/dokumenter/">Dokumenter</a></li>
-            @else
-                <li><a href="/dokumenter/">Dokumenter</a></li>
+            @if(Auth::check())
+                @if(Request::is('dokumenter'))
+                    <li class="active_nav"><a href="/dokumenter/">Dokumenter</a></li>
+                @else
+                    <li><a href="/dokumenter/">Dokumenter</a></li>
+                @endif
+                    <li>/</li>
             @endif
-
-            <li>/</li>
 
             @if(Request::is('om_oss'))
                 <li class="active_nav"><a href="/om_oss/">Om Oss</a></li>

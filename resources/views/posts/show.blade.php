@@ -5,11 +5,6 @@
             <div class="post-header">
                 <div>
                     <h3>{{ $post->title }}</h3>
-                    @if(Auth::check() && (Auth::user()->id == $post->author_id))
-                        <div>
-                            <a class="btn btn-primary" href="{{ url('edit/' . $post->slug)}}">Endre</a>
-                        </div>
-                    @endif
                 </div>
                 <div>
                     <p>{{ $post->created_at->format('M d, Y \k\l. h:i a') }}, av {{ $post->author->name }}</p>
@@ -76,7 +71,6 @@
 
                                         <div class="form-group form-nav">
                                             {!! Form::submit('Kommentér', array('class' => 'btn btn-success')) !!}
-                                            <a class="btn btn-primary" href="/">Tilbake</a>
                                         </div>
 
                                         {!! Form::close() !!}

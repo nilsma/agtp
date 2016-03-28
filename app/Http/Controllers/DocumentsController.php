@@ -23,7 +23,7 @@ class DocumentsController extends Controller
         if(Auth::check()) {
 
             return view('pages.dokumenter', [
-                'username' => Auth::user()->name,
+                'currentUser' => Auth::user(),
                 'til_godkjenning' => $til_godkjenning,
                 'godkjent' => $godkjente,
                 'skriv' => $skriv
@@ -52,7 +52,7 @@ class DocumentsController extends Controller
         $documents = Documents::all();
 
         return view('documents.show-all', array(
-            'username' => Auth::user()->name,
+            'currentUser' => Auth::user(),
             'documents' => $documents,
             'godkjente' => $godkjente,
             'til_godkjenning' => $til_godkjenning
@@ -66,21 +66,19 @@ class DocumentsController extends Controller
             redirect('/');
         }
 
-        $username = Auth::user()->name;
-
         $documents = Documents::where(['owner_id' => Auth::user()->id])->orderBy('created_at', 'desc')->get();
         $til_godkjenning = Protocols::where(['owner_id' => Auth::user()->id, 'is_approved' => false])->orderBy('created_at', 'desc')->get();
         $godkjente = Protocols::where(['owner_id' => Auth::user()->id, 'is_approved' => true])->orderBy('created_at', 'desc')->get();
 
         return view('documents.show-mine', [
-            'username' => $username, 'documents' => $documents, 'til_godkjenning' => $til_godkjenning, 'godkjente' => $godkjente
+            'currentUser' => Auth::user(), 'documents' => $documents, 'til_godkjenning' => $til_godkjenning, 'godkjente' => $godkjente
         ]);
 
     }
 
     public function upload() {
 
-        return view('documents.upload', ['username' => Auth::user()->name]);
+        return view('documents.upload', array('currentUser' => Auth::user()));
 
     }
 
@@ -95,11 +93,11 @@ class DocumentsController extends Controller
 
         if(Auth::check()) {
 
-            $user = Auth::user();
+            $currentUser = Auth::user();
             $document = Documents::findOrFail($id);
             $folder = 'uploads/skriv/';
 
-            if ($document->owner_id == $user->id) {
+            if ($document->owner_id == $currentUser->id) {
 
                 if($document->delete()) {
 
@@ -132,7 +130,7 @@ class DocumentsController extends Controller
 
             } else {
 
-                return redirect('/mine-dokumenter', ['username' => $user->name])->withErrors(['Du kan ikke slette andre brukeres referater!']);
+                return redirect('/mine-dokumenter', array('currentUser' => Auth::user()))->withErrors(['Du kan ikke slette andre brukeres referater!']);
 
             }
 

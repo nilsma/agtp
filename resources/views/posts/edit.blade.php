@@ -32,8 +32,7 @@
                 <input type="submit" name='publish' class="btn btn-success" value = "Publiser"/>
             @endif
             <input type="submit" name='save' class="btn btn-default" value = "Lagre kladd" />
-            <a href="{{  url('delete/'.$post->id.'?_token='.csrf_token()) }}" class="btn btn-danger">Slett</a>
-            <a class="btn btn-primary" href="/mine-poster">Tilbake</a>
+            <a href="{{  url('posts/delete/'.$post->id.'?_token='.csrf_token()) }}" class="btn btn-danger">Slett</a>
         </form>
     </div>
 @endsection

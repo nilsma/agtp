@@ -10,8 +10,7 @@ class ResolutionsController extends Controller
     public function index()
     {
         if(Auth::check()) {
-            $username = Auth::user()->name;
-            return view('pages.vedtekter', ['username' => $username]);
+            return view('pages.vedtekter', array('currentUser' => Auth::user()));
         }
 
         return view('pages.vedtekter');

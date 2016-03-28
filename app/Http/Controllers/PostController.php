@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use App\Comments;
+use URL;
 
 class PostController extends Controller
 {
@@ -22,47 +23,77 @@ class PostController extends Controller
         //
     }
 
+    public function landingPage(Request $request)
+    {
+
+        switch($request->input('sorting-drafts')) {
+            case null:
+                $orderDraftsBy = 'created_at';
+                $orderDraftsDirection = 'desc';
+                break;
+
+            case 'created_at':
+                $orderDraftsBy = 'created_at';
+                $orderDraftsDirection = 'desc';
+                break;
+
+            case 'title':
+                $orderDraftsBy = 'title';
+                $orderDraftsDirection = 'asc';
+                break;
+        }
+
+        switch($request->input('sorting-published')) {
+            case null:
+                $orderPublishedBy = 'created_at';
+                $orderPublishedDirection = 'desc';
+                break;
+
+            case 'created_at':
+                $orderPublishedBy = 'created_at';
+                $orderPublishedDirection = 'desc';
+                break;
+
+            case 'title':
+                $orderPublishedBy = 'title';
+                $orderPublishedDirection = 'asc';
+                break;
+        }
+
+        $currentUser = Auth::user();
+        $published = Posts::where('active', 1)->orderBy($orderPublishedBy, $orderPublishedDirection)->get();
+        $drafted = Posts::where('author_id', $currentUser->id)->where('active', 0)->orderBy($orderDraftsBy, $orderDraftsDirection)->get();
+        $sortValues = array(
+            'created_at' => 'Opprettet',
+            'title' => 'Tittel',
+        );
+
+        return view(
+            'posts.landing',
+            array(
+                'currentUser' => $currentUser,
+                'published' => $published,
+                'drafted' => $drafted,
+                'sortValues' => $sortValues,
+                'orderPublishedBy' => $orderPublishedBy,
+                'orderDraftsBy' => $orderDraftsBy
+            )
+        );
+
+    }
+
     public function create(Request $request) {
 
         if(Auth::check() && $request->user()->can_post()) {
-            $username = Auth::user()->name;
+            $currentUser = Auth::user();
 
-            return view('posts.create', ['username' => $username]);
+            return view('posts.create', array('currentUser' => $currentUser));
 
         } else {
 
-            return view('pages.velkommen');
+            return view('/');
 
         }
-
-    }
-
-    public function my_posts(Request $request) {
-
-        if(!Auth::check()) {
-
-            return Redirect::to('/')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Du må logge inn først!'));
-
-        }
-
-        $posts = Posts::where('author_id', $request->user()->id)->orderBy('created_at','desc')->paginate(5);
-
-        return view('posts.show-all', ['username' => $request->user()->name])->withPosts($posts);
-
-    }
-
-    public function all_posts()
-    {
-
-        if(!Auth::check()) {
-
-            return Redirect::to('/')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Du må logge inn først!'));
-
-        }
-
-        $posts = Posts::all();
-
-        return view('posts.show-all')->with(array('username' => Auth::user()->name, 'posts' => $posts));
 
     }
 
@@ -90,7 +121,8 @@ class PostController extends Controller
 
         $post->save();
 
-        return redirect('edit/' . $post->slug)->with(array('alert-message' => $message, 'alert-type' => 'alert alert-success'));
+        return redirect('/poster')->with(array('alert-message' => $message, 'alert-type' => 'alert alert-success'));
+        #return redirect('edit/' . $post->slug)->with(array('alert-message' => $message, 'alert-type' => 'alert alert-success'));
     }
 
     /**
@@ -112,7 +144,7 @@ class PostController extends Controller
 
         if(Auth::check()) {
 
-            return view('posts.show')->with(array('username' => Auth::user()->name, 'post' => $post, 'comments' => $comments));
+            return view('posts.show')->with(array('currentUser' => Auth::user(), 'post' => $post, 'comments' => $comments));
 
         } else {
 
@@ -128,11 +160,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$slug)
+    public function edit(Request $request, $slug)
     {
+
         $post = Posts::where('slug',$slug)->first();
+
         if($post && ($request->user()->id == $post->author_id || $request->user()->is_admin()))
-            return view('posts.edit', ['username' => $request->user()->name])->with('post',$post);
+            return view('posts.edit', array('currentUser' => Auth::user()))->with('post',$post);
 
         return redirect('/')->withErrors('you have not sufficient permissions');
     }
@@ -145,41 +179,55 @@ class PostController extends Controller
      */
     public function update(Request $request)
     {
+
         $post_id = $request->input('post_id');
         $post = Posts::find($post_id);
-        if($post && ($post->author_id == $request->user()->id || $request->user()->is_admin())) {
+
+        if($post && ($request->user()->role == 'author' || $request->user()->is_admin())) {
+
             $title = $request->input('title');
             $slug = str_slug($title);
             $duplicate = Posts::where('slug',$slug)->first();
+
             if($duplicate) {
+
                 if($duplicate->id != $post_id) {
+
                     return redirect('edit/'.$post->slug)->withErrors('Title already exists.')->withInput();
+
                 } else {
+
                     $post->slug = $slug;
+
                 }
+
             }
 
             $post->title = $title;
             $post->body = $request->input('body');
+
             if($request->has('save')) {
+
                 $post->active = 0;
                 $message = 'Posten ble lagret!';
                 $message_type = 'alert alert-success';
-                $landing = 'edit/'.$post->slug;
+
             } else {
+
                 $post->active = 1;
                 $message = 'Posten ble oppdatert!';
                 $message_type = 'alert alert-success';
-                # $landing = $post->slug;
-                $landing = 'edit/'.$post->slug;
+
             }
+
             $post->save();
 
-            return Redirect::to($landing)->with(array('alert-message' => $message, 'alert-type' => $message_type));
-            # return redirect($landing)->withMessage($message);
+            return Redirect::to('/poster')->with(array('alert-message' => $message, 'alert-type' => $message_type));
 
         } else {
+
             return redirect('/')->withErrors('you have not sufficient permissions');
+
         }
     }
 
@@ -214,7 +262,7 @@ class PostController extends Controller
 
         }
 
-        return Redirect::to('/mine-poster')->with($data);
+        return Redirect::to('/poster')->with($data);
 
     }
 

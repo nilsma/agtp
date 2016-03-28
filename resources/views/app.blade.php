@@ -22,7 +22,10 @@
             @endif
         </div> <!-- end #error-reporting -->
 
-        @yield('content')
+        <div id="content">
+            @yield('content')
+        </div>
+
         @include('partials/footer')
     </div> <!-- end #main-container -->
 

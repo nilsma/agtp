@@ -10,8 +10,7 @@ class HouseRulesController extends Controller
     public function index()
     {
         if(Auth::check()) {
-            $username = Auth::user()->name;
-            return view('pages.ordensregler', ['username' => $username]);
+            return view('pages.ordensregler', array('currentUser' => Auth::user()));
         }
 
         return view('pages.ordensregler');

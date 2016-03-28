@@ -72,7 +72,7 @@ class UploadsController extends Controller
                         Request::file('file')->move(public_path('uploads/referater/'), Request::file('file')->getClientOriginalName());
                         $protocol->save();
 
-                        return Redirect::to('last-opp')->with(array('username' => Auth::user()->name, 'alert-type' => 'alert alert-success', 'alert-message' => 'Referatet ble lagt til!'));
+                        return Redirect::to('last-opp')->with(array('currentUser' => Auth::user(), 'alert-type' => 'alert alert-success', 'alert-message' => 'Referatet ble lagt til!'));
 
                     } catch(QueryException $e) {
 
@@ -104,7 +104,7 @@ class UploadsController extends Controller
                         Request::file('file')->move(public_path('uploads/referater/'), Request::file('file')->getClientOriginalName());
                         $protocol->save();
 
-                        return Redirect::to('last-opp')->with(array('username' => Auth::user()->name, 'alert-type' => 'alert alert-success', 'alert-message' => 'Referatet ble lagt til!'));
+                        return Redirect::to('last-opp')->with(array('currentUser' => Auth::user(), 'alert-type' => 'alert alert-success', 'alert-message' => 'Referatet ble lagt til!'));
 
                     } catch(QueryException $e) {
 
