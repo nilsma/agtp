@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AnnualMeetingsDocuments;
 use App\Documents;
 use App\Protocols;
 use Auth;
@@ -12,31 +13,40 @@ use Redirect;
 class DocumentsController extends Controller
 {
 
-    public function index()
+    public function Index()
     {
+        return view('pages.dokumenter')->with(array('currentUser' => Auth::user()));
+    }
 
+    public function generalDocuments()
+    {
+        $documents = Documents::all();
+        return view('documents.general')->with(array('currentUser' => Auth::user(), 'documents' => $documents));
+    }
 
+    public function annualMeetingsDocuments()
+    {
+        $documents = AnnualMeetingsDocuments::all();
+        return view('documents.annuals')->with(array('currentUser' => Auth::user(), 'documents' => $documents));
+    }
+
+    public function boardDocuments()
+    {
         $godkjente = Protocols::where('is_approved', '=', true)->orderBy('created_at', 'asc')->get();
         $til_godkjenning = Protocols::where('is_approved', '=', false)->orderBy('created_at', 'asc')->get();
-        $skriv = Documents::orderBy('created_at', 'asc')->get();
 
         if(Auth::check()) {
-
-            return view('pages.dokumenter', [
+            return view('documents.referater', [
                 'currentUser' => Auth::user(),
                 'til_godkjenning' => $til_godkjenning,
-                'godkjent' => $godkjente,
-                'skriv' => $skriv
+                'godkjente' => $godkjente
             ]);
-
+        } else {
+            return view('documents.referater', [
+                'til_godkjenning' => $til_godkjenning,
+                'godkjente' => $godkjente
+            ]);
         }
-
-        return view('pages.dokumenter', [
-            'til_godkjenning' => $til_godkjenning,
-            'godkjent' => $godkjente,
-            'skriv' => $skriv
-        ]);
-
     }
 
     public function all_documents() {

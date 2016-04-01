@@ -129,7 +129,7 @@ class ProtocolsController extends Controller
 
     }
 
-    public function toggle($id)
+    public function toggleApproval($id)
     {
 
         if(Auth::check()) {
@@ -150,11 +150,11 @@ class ProtocolsController extends Controller
                 }
 
                 $protocol->save();
-                return redirect('mine-dokumenter')->with('message', 'Referat ' . $protocol->title . ' (' . $protocol->filename . ') har blitt oppdatert!');
+                return Redirect::to('/dokumenter/styrereferater')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Referatet ble oppdatert'));
 
             } else {
 
-                return redirect('mine-dokumenter')->with('message', 'Du kan kun endre på referater som er dine.');
+                return Redirect::to('/dokumenter/styrereferater')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Du kan kun endre på dine egne referater'));
 
             }
 

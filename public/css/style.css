@@ -372,3 +372,20 @@ div.post-header-admin div:last-child {
     flex-direction: row;
     align-self: center;
 }
+
+body#dokumenter div#dokumenter-linker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body#dokumenter div#dokumenter-linker a {
+    margin-bottom: 30px;
+    font-size: 24px;
+    padding: 20px 10px;
+    text-decoration: underline;
+}
+
+body#dokumenter div#dokumenter-linker a:last-child {
+    margin-right: 0;
+}

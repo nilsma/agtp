@@ -44,28 +44,4 @@
             </div>
         @endif
     </div>
-    <div id="documents" class="col-lg-12">
-        <h3>Opplastede skriv</h3>
-        @if(count($documents) > 0)
-            @foreach($documents as $doc)
-                <div class="document">
-                    <h4>{{ $doc->title }} <span>(<a href="{{ url('uploads/skriv/' . $doc->filename) }}">{{ $doc->filename }}</a>)</span></h4>
-                    <p>
-                        Uploaded at: {{ $doc->created_at->format('M d, Y \a\t h:i a') }}
-                        - by {{ $doc->owner->name }}
-                    </p>
-                    <div>
-                        <a class="btn btn-danger" href="{{ '/documents/delete/' . $doc->id }}">Slett dokument</a>
-                    </div>
-                </div>
-            @endforeach
-        @else
-            <div>
-                <p>Der er ingen opplastede skriv enda!</p>
-            </div>
-        @endif
-    </div>
-    <div class="col-lg-12">
-        <a class="btn btn-primary" href="/dashboard">Tilbake</a>
-    </div>
 @endsection

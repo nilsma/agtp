@@ -15,13 +15,15 @@
 Route::get('/', 'WelcomeController@Index');
 Route::get('/om_oss/', 'AboutController@Index');
 Route::get('/vedtekter/', 'ResolutionsController@Index');
+Route::get('/dokumenter/', 'DocumentsController@Index');
+Route::get('/dokumenter/styrereferater', 'DocumentsController@boardDocuments');
+Route::get('/dokumenter/arsmoter', 'DocumentsController@annualMeetingsDocuments');
+Route::get('/dokumenter/ovrige', 'DocumentsController@generalDocuments');
 Route::get('/ordensregler/', 'HouseRulesController@Index');
 
-/* REGISTRATION AND LOGIN */
-Route::get('/logg-inn', 'Auth\AuthController@getLogin');
-Route::get('/logg-ut', 'Auth\AuthController@getLogout');
-Route::get('/registrer', 'Auth\AuthController@getRegister');
-Route::post('/registrer', ['as' => 'registrer', 'uses' => 'UserController@registrationPreface']);
+/* LOGIN */
+Route::get('/admin/login', 'Auth\AuthController@getLogin');
+Route::get('/admin/logout', 'Auth\AuthController@getLogout');
 
 /* VERIFICATIONS */
 Route::get('/verify/{token}', 'UserController@verify_user');
@@ -80,10 +82,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('comment/delete/{id}','CommentController@destroy');
 
     /* DOKUMENTER / DOCUMENTS */
-    Route::get('/dokumenter/', 'DocumentsController@Index');
+    Route::get('/dokumenter/godkjenn/{id}', 'ProtocolsController@toggleApproval');
+
     Route::get('/mine-dokumenter', ['as' => 'mine-dokumenter', 'uses' => 'DocumentsController@my_documents']);
     Route::get('/alle-dokumenter', ['as' => 'alle-dokumenter', 'uses' => 'DocumentsController@all_documents']);
-    Route::match(['get', 'post'], '/last-opp', ['as' => 'last-opp', 'uses' => 'DocumentsController@upload']);
+    Route::match(['get', 'post'], '/dokumenter/last-opp', ['as' => 'last-opp', 'uses' => 'DocumentsController@upload']);
     Route::post('/upload', ['as' => 'upload', 'uses' => 'UploadsController@upload']);
     Route::get('/documents/delete/{id}', 'DocumentsController@destroy');
     Route::match(['get', 'post'], '/documents/store', 'DocumentsController@store');

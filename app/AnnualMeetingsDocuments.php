@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Protocols extends Model
+class AnnualMeetingsDocuments extends Model
 {
 
     protected $guarded = [];
