@@ -12,12 +12,10 @@
                     <div class="post">
                         <div class="post-header">
                             <div>
-                                <h3><a href="{{ url('/' . $post->slug) }}">{{ $post->title }}</a></h3>
+                                <h3>{{ $post->title }}</h3>
                             </div>
                             <div>
-                                <p>{{ $post->created_at->format('d\. M, Y \k\l\. H:i') }}, av {{ $post->author->name }}
-                                    - <a href="{{ url('/' . $post->slug) }}">kommentarer ({{ count($post->comments) }})</a>
-                                </p>
+                                <p>{{ $post->created_at->format('d\. M, Y \k\l\. H:i') }}, av {{ $post->author->name }}</p>
                             </div>
                         </div> <!-- .post-header -->
                         <article class="post-content">

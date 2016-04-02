@@ -65,8 +65,6 @@ Route::group(['middleware' => ['auth']], function() {
     /* POSTER / POSTS */
     Route::get('/poster', 'PostController@landingPage');
     Route::post('/poster', 'PostController@landingPage');
-    Route::get('/mine-poster', 'PostController@my_posts');
-    Route::get('/alle-poster', 'PostController@all_posts');
 
     Route::get('ny-post','PostController@create');
     Route::post('ny-post','PostController@store');
@@ -76,10 +74,6 @@ Route::group(['middleware' => ['auth']], function() {
         return Redirect('/');
     });
     Route::get('posts/delete/{id}','PostController@destroy');
-
-    Route::get('my-drafts','UserController@user_posts_draft');
-    Route::post('comment/add','CommentController@store');
-    Route::post('comment/delete/{id}','CommentController@destroy');
 
     /* DOKUMENTER / DOCUMENTS */
     Route::get('/dokumenter/godkjenn/{id}', 'ProtocolsController@toggleApproval');
@@ -97,4 +91,4 @@ Route::group(['middleware' => ['auth']], function() {
 });
 
 /* POSTS */
-Route::get('/{slug}',['as' => 'post', 'uses' => 'PostController@show'])->where('slug', '[A-Za-z0-9-_]+');
+#Route::get('/{slug}',['as' => 'post', 'uses' => 'PostController@show'])->where('slug', '[A-Za-z0-9-_]+');
