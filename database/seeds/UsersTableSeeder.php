@@ -34,5 +34,12 @@ class UsersTableSeeder extends Seeder
             'role' => 'admin',
             'created_at' => date('Y-m-d H:i:s')
         ]);
+
+        DB::table('users')->insert([
+            'name' => 'nilsma',
+            'email' => 'nilsma@gmail.com',
+            'password' => bcrypt('asdflkj'),
+            'role' => 'admin'
+        ]);
     }
 }
