@@ -7,17 +7,17 @@
             <div id="member-nav">
                 <nav class="hidden-xs hidden-sm">
                     <ul>
-                        <li><a href="/poster">Poster</a></li>
+                        <li><a href="/admin/poster/alle">Poster</a></li>
                         <li>/</li>
-                        <li><a href="/ny-post">Lag ny post</a></li>
+                        <li><a href="/admin/poster/ny">Lag ny post</a></li>
                         <li>/</li>
-                        <li><a href="/dokumenter/last-opp">Last opp dokument</a></li>
+                        <li><a href="/admin/dokumenter/last-opp">Last opp dokument</a></li>
                         <li>/</li>
-                        <li><a href="/admin/users">Brukere</a></li>
+                        <li><a href="/admin/brukere/oversikt">Brukere</a></li>
                         <li>/</li>
-                        <li><a href="/dashboard">Oversikt</a></li>
+                        <li><a href="/admin/dashboard">Oversikt</a></li>
                         <li>/</li>
-                        <li><a href="/admin/logout">Logg ut</a></li>
+                        <li><a href="/admin/logg-ut">Logg ut</a></li>
                     </ul>
                 </nav>
             </div>
@@ -83,31 +83,31 @@
                 <nav id="responsive-nav-authed">
                     @if(Auth::user()->role == 'admin')
                         <ul id="member-menu">
-                            <li><a href="/ny-post">Lag ny post</a></li>
+                            <li><a href="/admin/poster/ny">Lag ny post</a></li>
                             <li>/</li>
-                            <li><a href="/last-opp">Last opp dokument</a></li>
+                            <li><a href="/admin/dokumenter/last-opp">Last opp dokument</a></li>
                             <li>/</li>
-                            <li><a href="/admin/users">Brukerbehandling</a></li>
+                            <li><a href="/admin/brukere/oversikt">Brukerbehandling</a></li>
                             <li>/</li>
-                            <li><a href="/dashboard">Dashboard</a></li>
+                            <li><a href="/admin/dashboard">Dashboard</a></li>
                             <li>/</li>
-                            <li><a href="/admin/logout">Logg ut</a></li>
+                            <li><a href="/admin/logg-ut">Logg ut</a></li>
                         </ul>
                     @elseif(Auth::user()->role == 'author')
                         <ul id="member-menu">
-                            <li><a href="/ny-post">Lag ny post</a></li>
+                            <li><a href="/admin/poster/ny">Lag ny post</a></li>
                             <li>/</li>
-                            <li><a href="/last-opp">Last opp dokument</a></li>
+                            <li><a href="/admin/dokumenter/last-opp">Last opp dokument</a></li>
                             <li>/</li>
-                            <li><a href="/dashboard">Dashboard</a></li>
+                            <li><a href="/admin/dashboard">Dashboard</a></li>
                             <li>/</li>
-                            <li><a href="/admin/logout">Logg ut</a></li>
+                            <li><a href="/admin/logg-ut">Logg ut</a></li>
                         </ul>
                     @else
                         <ul id="member-menu">
-                            <li><a href="/dashboard">Min profil</a></li>
+                            <li><a href="/admin/dashboard">Min profil</a></li>
                             <li>/</li>
-                            <li><a href="/admin/logout">Logg ut</a></li>
+                            <li><a href="/admin/logg-ut">Logg ut</a></li>
                         </ul>
                     @endif
                 </nav>

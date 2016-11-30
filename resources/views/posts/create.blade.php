@@ -12,7 +12,7 @@
                 toolbar : "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
             });
         </script>
-        <form action="/ny-post" method="post">
+        <form action="/admin/poster/lagre" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group">
                 <input required="required" value="{{ old('title') }}" placeholder="Skriv inn tittel" type="text" name="title" class="form-control" />
@@ -22,7 +22,7 @@
             </div>
             <input type="submit" name='publish' class="btn btn-success" value = "Publiser"/>
             <input type="submit" name='save' class="btn btn-default" value = "Lagre" />
-            <a class="btn btn-danger" href="/dashboard">Avbryt</a>
+            <a class="btn btn-danger" href="/admin/dashboard">Avbryt</a>
         </form>
     </div>
 @endsection

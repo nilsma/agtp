@@ -26,7 +26,7 @@
                         <div>
                             <h4><a href="{{ url('/' . $post->slug) }}">{{ $post->title }}</a></h4>
                             <div>
-                                <a class="btn btn-primary" href="{{ url('edit/' . $post->slug) }}">Endre kladd</a>
+                                <a class="btn btn-primary" href="{{ url('/admin/poster/rediger/' . $post->slug) }}">Endre kladd</a>
                             </div>
                         </div>
                         <div>
@@ -70,7 +70,7 @@
                         <div>
                             <h4><a href="{{ url('/' . $post->slug) }}">{{ $post->title }}</a></h4>
                             <div>
-                                <a class="btn btn-primary" href="{{ url('edit/' . $post->slug) }}">Endre post</a>
+                                <a class="btn btn-primary" href="{{ url('/admin/poster/rediger/' . $post->slug) }}">Endre post</a>
                             </div>
                         </div>
                         <div>

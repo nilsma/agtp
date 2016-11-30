@@ -121,7 +121,7 @@ class PostController extends Controller
 
         $post->save();
 
-        return redirect('/poster')->with(array('alert-message' => $message, 'alert-type' => 'alert alert-success'));
+        return redirect('/admin/poster/alle')->with(array('alert-message' => $message, 'alert-type' => 'alert alert-success'));
         #return redirect('edit/' . $post->slug)->with(array('alert-message' => $message, 'alert-type' => 'alert alert-success'));
     }
 
@@ -193,7 +193,7 @@ class PostController extends Controller
 
                 if($duplicate->id != $post_id) {
 
-                    return redirect('edit/'.$post->slug)->withErrors('Title already exists.')->withInput();
+                    return redirect('/admin/poster/rediger/'.$post->slug)->withErrors('Title already exists.')->withInput();
 
                 } else {
 
@@ -222,7 +222,7 @@ class PostController extends Controller
 
             $post->save();
 
-            return Redirect::to('/poster')->with(array('alert-message' => $message, 'alert-type' => $message_type));
+            return Redirect::to('/admin/poster/alle')->with(array('alert-message' => $message, 'alert-type' => $message_type));
 
         } else {
 
@@ -262,7 +262,7 @@ class PostController extends Controller
 
         }
 
-        return Redirect::to('/poster')->with($data);
+        return Redirect::to('/admin/poster/alle')->with($data);
 
     }
 
