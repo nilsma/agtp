@@ -41,7 +41,7 @@ class UploadsController extends Controller
                         Request::file('file')->move(public_path('uploads/skriv/'), Request::file('file')->getClientOriginalName());
                         $document->save();
 
-                        return Redirect::to('/dokumenter/ovrige')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Dokumentet ble lastet opp!'));
+                        return Redirect::to('/admin/dashboard')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Dokumentet ble lastet opp!'));
 
                     } catch(QueryException $e) {
 

@@ -82,6 +82,73 @@ class PostController extends Controller
 
     }
 
+    public function showOwnPosts(Request $request)
+    {
+
+        switch($request->input('sorting-drafts')) {
+            case null:
+                $orderDraftsBy = 'created_at';
+                $orderDraftsDirection = 'desc';
+                break;
+
+            case 'created_at':
+                $orderDraftsBy = 'created_at';
+                $orderDraftsDirection = 'desc';
+                break;
+
+            case 'title':
+                $orderDraftsBy = 'title';
+                $orderDraftsDirection = 'asc';
+                break;
+        }
+
+        switch($request->input('sorting-published')) {
+            case null:
+                $orderPublishedBy = 'created_at';
+                $orderPublishedDirection = 'desc';
+                break;
+
+            case 'created_at':
+                $orderPublishedBy = 'created_at';
+                $orderPublishedDirection = 'desc';
+                break;
+
+            case 'title':
+                $orderPublishedBy = 'title';
+                $orderPublishedDirection = 'asc';
+                break;
+        }
+
+        $currentUser = Auth::user();
+        $published = Posts::where('active', 1)
+            ->orderBy($orderPublishedBy, $orderPublishedDirection)
+            ->where('author_id', Auth::id())
+            ->get();
+        $drafted = Posts::where('author_id', $currentUser->id)->where('active', 0)->orderBy($orderDraftsBy, $orderDraftsDirection)->get();
+        $sortValues = array(
+            'created_at' => 'Opprettet',
+            'title' => 'Tittel',
+        );
+
+        return view(
+            'posts.landing',
+            array(
+                'currentUser' => $currentUser,
+                'published' => $published,
+                'drafted' => $drafted,
+                'sortValues' => $sortValues,
+                'orderPublishedBy' => $orderPublishedBy,
+                'orderDraftsBy' => $orderDraftsBy
+            )
+        );
+
+    }
+
+    /**
+     * Returns the view for creating new post
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create(Request $request) {
 
         if(Auth::check() && $request->user()->can_post()) {
@@ -125,10 +192,10 @@ class PostController extends Controller
         #return redirect('edit/' . $post->slug)->with(array('alert-message' => $message, 'alert-type' => 'alert alert-success'));
     }
 
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($slug)

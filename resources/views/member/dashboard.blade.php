@@ -9,7 +9,7 @@
                     <h3>Behandle brukere</h3>
                     <nav id="users">
                         <ul>
-                            <li><a href="/admin/users">Brukeroversikt</a></li>
+                            <li><a href="/admin/brukere/oversikt">Brukeroversikt</a></li>
                         </ul>
                     </nav>
                 @endif
@@ -17,11 +17,11 @@
                     <h3>Behandle poster</h3>
                     <nav id="posts">
                         <ul>
-                            <li><a href="/mine-poster">Mine poster</a></li>
+                            <li><a href="/admin/poster/egne">Mine poster</a></li>
                             @if(Auth::user()->role == 'admin')
-                                <li><a href="/alle-poster">Alle poster</a></li>
+                                <li><a href="/admin/poster/alle">Alle poster</a></li>
                             @endif
-                            <li><a href="/ny-post">Lag ny post</a></li>
+                            <li><a href="/admin/poster/ny">Lag ny post</a></li>
                         </ul>
                     </nav>
                 @endif
@@ -31,23 +31,14 @@
                     <h3>Behandle dokumenter</h3>
                     <nav id="documents">
                         <ul>
-                            <li><a href="/mine-dokumenter">Mine dokumenter</a></li>
+                            <li><a href="/admin/dokumenter/egne">Mine dokumenter</a></li>
                             @if(Auth::user()->role == 'admin')
-                                <li><a href="alle-dokumenter">Alle dokumenter</a></li>
+                                <li><a href="/admin/dokumenter/alle">Alle dokumenter</a></li>
                             @endif
-                            <li><a href="/last-opp">Last opp dokument</a></li>
+                            <li><a href="/admin/dokumenter/last-opp">Last opp dokument</a></li>
                         </ul>
                     </nav>
                 @endif
-            </div>
-            <div>
-                <h3>Innstillinger</h3>
-                <nav id="settings">
-                    <ul>
-                        <li><a href="/endre-passord">Endre passord</a></li>
-                        <li><a href="/epostlister">Melde på/av epostliste</a></li>
-                    </ul>
-                </nav>
             </div>
         </section>
     </section>

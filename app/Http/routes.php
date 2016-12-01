@@ -69,6 +69,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/admin/poster/ny','PostController@create');
     Route::post('/admin/poster/lagre','PostController@store');
 
+    Route::get('/admin/poster/egne', 'PostController@showOwnPosts');
+
     Route::get('/admin/poster/rediger/{slug}','PostController@edit');
     Route::post('update','PostController@update', function() {
         return Redirect('/');
@@ -79,8 +81,8 @@ Route::group(['middleware' => ['auth']], function() {
     /* DOKUMENTER / DOCUMENTS */
     Route::get('/dokumenter/godkjenn/{id}', 'ProtocolsController@toggleApproval');
 
-    Route::get('/mine-dokumenter', ['as' => 'mine-dokumenter', 'uses' => 'DocumentsController@my_documents']);
-    Route::get('/alle-dokumenter', ['as' => 'alle-dokumenter', 'uses' => 'DocumentsController@all_documents']);
+    Route::get('/admin/dokumenter/egne', ['as' => '/admin/dokumenter/egne', 'uses' => 'DocumentsController@my_documents']);
+    Route::get('/admin/dokumenter/alle', ['as' => '/admin/dokumenter/alle', 'uses' => 'DocumentsController@all_documents']);
     Route::match(['get', 'post'], '/admin/dokumenter/last-opp', ['as' => 'last-opp', 'uses' => 'DocumentsController@upload']);
     Route::post('/upload', ['as' => 'upload', 'uses' => 'UploadsController@upload']);
     Route::get('/documents/delete/{id}', 'DocumentsController@destroy');

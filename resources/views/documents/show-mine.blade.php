@@ -57,6 +57,6 @@
         @endif
     </div>
     <div class="col-lg-12">
-        <a class="btn btn-primary" href="/dashboard">Tilbake</a>
+        <a class="btn btn-primary" href="/admin/dashboard">Tilbake</a>
     </div>
 @endsection

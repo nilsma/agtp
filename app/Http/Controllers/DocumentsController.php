@@ -53,7 +53,7 @@ class DocumentsController extends Controller
 
         if(!Auth::check() || Auth::user()->role != 'admin') {
 
-            return Redirect::to('/dashboard')->with(array('alert-message' => 'Du må være administrator!', 'alert-type' => 'alert alert-danger'));
+            return Redirect::to('/admin/dashboard')->with(array('alert-message' => 'Du må være administrator!', 'alert-type' => 'alert alert-danger'));
 
         }
 
@@ -119,28 +119,28 @@ class DocumentsController extends Controller
 
                         } catch(\Exception $e) {
 
-                            return Redirect::to('mine-dokumenter')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Noe gikk feil under sletting av skrivet!'));
+                            return Redirect::to('/admin/dashboard')->with(array('alert-type' => 'alert alert-danger', 'alert-message' => 'Noe gikk feil under sletting av skrivet!'));
 
                         }
 
-                        return Redirect::to('mine-dokumenter')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Dokumentet ble slettet!'));
+                        return Redirect::to('/admin/dashboard')->with(array('alert-type' => 'alert alert-success', 'alert-message' => 'Dokumentet ble slettet!'));
 
                     } else {
 
-                        return redirect('mine-dokumenter')->with('message', 'Det skrivet eksisterer ikke! Prøv på nytt!');
+                        return redirect('/admin/dashboard')->with('message', 'Det skrivet eksisterer ikke! Prøv på nytt!');
 
                     }
 
                 } else {
 
-                    return redirect('mine-dokumenter')->with('message', 'Noe gikk feil under sletting av skrivet ' . $document->filename);
+                    return redirect('/admin/dashboard')->with('message', 'Noe gikk feil under sletting av skrivet ' . $document->filename);
 
                 }
 
 
             } else {
 
-                return redirect('/mine-dokumenter', array('currentUser' => Auth::user()))->withErrors(['Du kan ikke slette andre brukeres referater!']);
+                return redirect('/admin/dashboard', array('currentUser' => Auth::user()))->withErrors(['Du kan ikke slette andre brukeres referater!']);
 
             }
 

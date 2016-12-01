@@ -6,7 +6,7 @@
         @if(count($documents) > 0)
             <ul>
             @foreach($documents as $document)
-                <li><a href="{{ URL::to('/uploads/skriv/' . $document->filename) }}">{{ $document->title }}</a></li>
+                <li><a href="{{ URL::to('/dokumenter/ovrige#') }}">{{ $document->title }}</a></li>
             @endforeach
             </ul>
         @endif
